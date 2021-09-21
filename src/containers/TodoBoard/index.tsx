@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, MouseEvent } from "react";
 import styled from "styled-components";
 import Button from 'components/Button'
 import todoReducer, { initialTodoState } from "./todoReducer";
@@ -36,19 +36,24 @@ function TodoBoard() {
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
   const renderTodos: Array<React.ReactElement> = state.todos.map((todo: any) => (
-    <li key={todo.id}>{todo.title}</li>
+    <li key={todo.id}><button onClick={(event) => handlerRemoveTodo(todo.id, event)}>{todo.title}</button></li>
   ));
 
-  const handlerAddTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlerAddTodo = (event: MouseEvent<HTMLButtonElement>) => {
     const payload: TodoBase = {
       title: "test",
       body: "hi there",
       date: new Date(),
-      status: "undone",
     };
 
     dispatch({ type: "ADD_TODO", payload });
   };
+
+  const handlerRemoveTodo = (todoId: number, event: MouseEvent<HTMLButtonElement>) => {
+    const payload = todoId
+    
+    dispatch({ type: "REMOVE_TODO", payload })
+  }
 
   return (
     <TodoBody>
