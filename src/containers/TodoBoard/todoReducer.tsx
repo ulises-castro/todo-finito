@@ -6,8 +6,8 @@ export const initialTodoState: TodoReducerProps = {
 
 const todoReducer = (state: TodoReducerProps | any, action: { payload: TodoBase | number| object, type: string })  =>{
   switch (action.type) {
-    case 'ADD_TODO': 
-      const newTodo: TodoBase = {
+    case 'ADD_TODO': {
+       const newTodo: TodoBase = {
         id: state.todos.length + 1,
          ...( action.payload as TodoBase ) 
       }
@@ -15,8 +15,10 @@ const todoReducer = (state: TodoReducerProps | any, action: { payload: TodoBase 
       return {
       ...state,
       todos: [...state.todos, newTodo]
-    };
-    case 'REMOVE_TODO':
+    };   
+    }
+    
+    case 'REMOVE_TODO': 
       return state;
     default:
       throw Error()

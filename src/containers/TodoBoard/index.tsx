@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import styled from "styled-components";
+import Button from 'components/Button'
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoBase } from './models/Todo.interface'
 
@@ -9,20 +10,22 @@ const TodoBody = styled.div`
   width: 100vw;
 `;
 
-const TodoSection = styled.section`
+const TodoContainer = styled.section`
   display: flex;
-  height: 400px;
-  width: 200px;
+  column-gap: 15px;
+  height: 500px;
+  width: 800px;
   justify-content: space-between;
 `;
 
 const UnDoneTodo = styled.section`
+  flex-grow: 1;
   background: papayawhip;
   border: 1px solid;
   border-radius: 5px;
 `;
 
-const Button = styled.button`
+const ButtonBlue = styled( Button )`
   padding: 1rem;
   color: blue;
   border: 2px solid blue;
@@ -33,7 +36,7 @@ function TodoBoard() {
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
   const renderTodos: Array<React.ReactElement> = state.todos.map((todo: any) => (
-    <li>{todo.title}</li>
+    <li key={todo.id}>{todo.title}</li>
   ));
 
   const handlerAddTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,8 +52,12 @@ function TodoBoard() {
 
   return (
     <TodoBody>
-      <Button onClick={handlerAddTodo}>Add Todo</Button>
-      <TodoSection>{renderTodos}</TodoSection>
+      <ButtonBlue onClick={handlerAddTodo}>Add Todo</ButtonBlue>
+      <TodoContainer>
+        <UnDoneTodo>{renderTodos}</UnDoneTodo>
+        <UnDoneTodo>{renderTodos}</UnDoneTodo>
+        <UnDoneTodo>{renderTodos}</UnDoneTodo>
+      </TodoContainer>
     </TodoBody>
   );
 }
