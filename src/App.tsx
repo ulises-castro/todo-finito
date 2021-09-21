@@ -4,7 +4,7 @@ import TodoBoard from './containers/TodoBoard'
 
 function App() {
   return (
-    <div>
+    <div style={{background: '#373F51'}}>
       <TodoBoard />
     </div>
   );
