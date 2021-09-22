@@ -1,26 +1,26 @@
-import { TodoReducerProps, TodoBase } from "./models/Todo.interface";
+import { TodoAction, TodoProps, TodoReducerState, TodoBase } from "./models/Todo.interface";
 
-export const initialTodoState: TodoReducerProps = {
+export const initialTodoState: TodoReducerState = {
   todos: [],
 };
 
 const todoReducer = (
-  state: TodoReducerProps | any,
-  action: { payload: TodoBase | number | object; type: string }
-) => {
+  state: TodoReducerState,
+  action: TodoAction
+): TodoReducerState => {
   switch (action.type) {
     case "ADD_TODO": {
       const randomId =[ ...Array(9) ].map(() => (~~(Math.random() * 36)).toString(36)).join('')
 
-      const newTodo: TodoBase = {
+      const newTodo: TodoProps = {
         id: randomId,
         status: 'undone',
-        ...(action.payload as TodoBase),
+        ...(action.payload as TodoProps),
       };
 
       return {
         ...state,
-        todos: [...state.todos, newTodo],
+        todos: [ ...state.todos, newTodo ],
       };
     }
     case "REMOVE_TODO": {

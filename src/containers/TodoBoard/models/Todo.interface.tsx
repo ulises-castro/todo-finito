@@ -2,15 +2,23 @@ export interface TodoBase {
   id?: Number | String,
   title: String,
   body: String,
-  date: Date, 
-  status?: "undone" | "doing" | "done"
+  date?: Date, 
+  status?: "undone" | "doing" | "done" 
 }
 
-export interface TaskProps extends TodoBase {
-  subtasks: TodoBase[]
+export type TodoAction = 
+  | { type: "ADD_TODO", payload: TodoBase }
+  | { type: "REMOVE_TODO", payload: number  }
+
+// export type TodoState = {
+//   todos: TaskProps[]
+// }
+
+export interface TodoProps extends TodoBase {
+  subtasks?: TodoBase[]
 }
  
-export interface TodoReducerProps {
-  todos: TaskProps[]
+export type TodoReducerState = {
+  todos: TodoProps[]
 }
  

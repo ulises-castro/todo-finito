@@ -2,7 +2,7 @@ import React, { useReducer, MouseEvent } from "react";
 import styled from "styled-components";
 import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
-import { TodoBase } from "./models/Todo.interface";
+import { TodoProps } from "./models/Todo.interface";
 
 const TodoBody = styled.div`
   display: grid;
@@ -53,7 +53,7 @@ function TodoBoard() {
   );
 
   const handlerAddTodo = (event: MouseEvent<HTMLButtonElement>) => {
-    const payload: TodoBase = {
+    const payload: TodoProps = {
       title: "test",
       body: "hi there",
       date: new Date(),
