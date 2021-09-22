@@ -6,14 +6,6 @@ export interface TodoBase {
   status?: "undone" | "doing" | "done" 
 }
 
-export type TodoAction = 
-  | { type: "ADD_TODO", payload: TodoBase }
-  | { type: "REMOVE_TODO", payload: number  }
-
-// export type TodoState = {
-//   todos: TaskProps[]
-// }
-
 export interface TodoProps extends TodoBase {
   subtasks?: TodoBase[]
 }
@@ -21,4 +13,12 @@ export interface TodoProps extends TodoBase {
 export type TodoReducerState = {
   todos: TodoProps[]
 }
+
+export const ADD_TODO = 'ADD_TODO'
+export const REMOVE_TODO = 'REMOVE_TODO'
+ 
+export type TodoAction = 
+  | { type: ADD_TODO, payload: TodoBase }
+  | { type: REMOVE_TODO, payload: number  }
+
  

@@ -1,4 +1,4 @@
-import { TodoAction, TodoProps, TodoReducerState, TodoBase } from "./models/Todo.interface";
+import { TodoAction, ADD_TODO, REMOVE_TODO, TodoProps, TodoReducerState, TodoBase } from "./models/Todo.interface";
 
 export const initialTodoState: TodoReducerState = {
   todos: [],
@@ -9,8 +9,8 @@ const todoReducer = (
   action: TodoAction
 ): TodoReducerState => {
   switch (action.type) {
-    case "ADD_TODO": {
-      const randomId =[ ...Array(9) ].map(() => (~~(Math.random() * 36)).toString(36)).join('')
+    case ADD_TODO: {
+      const randomId = [...Array(9)].map(() => (~~(Math.random() * 36)).toString(36)).join('')
 
       const newTodo: TodoProps = {
         id: randomId,
@@ -20,12 +20,12 @@ const todoReducer = (
 
       return {
         ...state,
-        todos: [ ...state.todos, newTodo ],
+        todos: [...state.todos, newTodo],
       };
     }
-    case "REMOVE_TODO": {
+    case REMOVE_TODO: {
       const filteredTodos = state.todos
-      .filter((todo: TodoBase) => todo.id !== action.payload)
+        .filter((todo: TodoBase) => todo.id !== action.payload)
 
       return {
         ...state,
