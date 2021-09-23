@@ -1,6 +1,6 @@
 import React, { useReducer, MouseEvent } from "react";
 import styled from "styled-components";
-import TodoContainer from "containers/TodoContainer";
+import TodoContainer from "components/TodoContainer";
 import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoProps } from "./models/Todo.interface";
