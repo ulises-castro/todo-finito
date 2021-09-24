@@ -38,7 +38,6 @@ const TodoStatusContainer = styled.section<ITodoStatusContainer>`
   justify-content: space-between;
 `;
 
-
 const SimpleBtn = styled(InvertedBtn)``;
 
 function TodoBoard() {
@@ -54,7 +53,7 @@ function TodoBoard() {
     dispatch({ type: "ADD_TODO", payload });
   };
 
-  const handleRemoveTodo = (
+  const handlerRemoveTodo = (
     todoId: number,
   ) => {
     const payload = todoId;
@@ -62,9 +61,11 @@ function TodoBoard() {
     dispatch({ type: "REMOVE_TODO", payload });
   };
 
+  const handlerMarkAsDone = (todoId: number) => dispatch({ type: "MARK_COMPLETED", payload: todoId})
+
   const filterTodosBy: any = (status = "done") =>
     state.todos.filter((todo: any) => todo.status === status)
-  .map((todo: any) => <TodoItem handleRemoveTodo={handleRemoveTodo} key={todo.id} todo={todo} />) 
+  .map((todo: any) => <TodoItem handlerMarkAsDone={handlerMarkAsDone} handlerRemoveTodo={handlerRemoveTodo} key={todo.id} todo={todo} />) 
 
   return (
     <TodoBody>
@@ -75,7 +76,7 @@ function TodoBoard() {
       </ActionBar>
       <TodoStatusContainer direction="column">
         <TodoContainer>{  filterTodosBy("undone") } </TodoContainer>
-        <TodoContainer>{  filterTodosBy("done") } </TodoContainer>
+        <TodoContainer>{  filterTodosBy("doing") } </TodoContainer>
         <TodoContainer>{  filterTodosBy() } </TodoContainer>
       </TodoStatusContainer>
     </TodoBody>

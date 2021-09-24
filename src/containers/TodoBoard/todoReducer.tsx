@@ -1,4 +1,4 @@
-import { TodoAction, ADD_TODO, REMOVE_TODO, TodoProps, TodoReducerState, TodoBase } from "./models/Todo.interface";
+import { ADD_TODO, REMOVE_TODO, MARK_COMPLETED, TodoAction,  TodoProps, TodoReducerState, TodoBase } from "./models/Todo.interface";
 
 export const initialTodoState: TodoReducerState = {
   todos: [],
@@ -22,6 +22,17 @@ const todoReducer = (
         ...state,
         todos: [...state.todos, newTodo],
       };
+    }
+    case MARK_COMPLETED: {
+      const findIndex = state.todos.findIndex(todo => todo.id === action.payload)
+      const todos = [ ...state.todos ]
+
+      todos[findIndex].status = 'done'
+
+      return {
+        ...state,
+        todos 
+      } 
     }
     case REMOVE_TODO: {
       const filteredTodos = state.todos
