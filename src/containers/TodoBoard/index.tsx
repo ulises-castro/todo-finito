@@ -1,7 +1,7 @@
-import React, { useReducer, MouseEvent } from "react";
+import React, { useReducer, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import TodoContainer from "components/TodoContainer";
-import TodoItem from 'components/TodoItem'
+import TodoItem from "components/TodoItem";
 
 import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
@@ -23,6 +23,7 @@ const ActionBar = styled.header`
   align-items: center;
   justify-content: end;
 `;
+
 interface ITodoStatusContainer {
   direction?: string;
 }
@@ -41,9 +42,10 @@ const TodoStatusContainer = styled.section<ITodoStatusContainer>`
 const SimpleBtn = styled(InvertedBtn)``;
 
 function TodoBoard() {
+  const [listMode, setListMode] = useState<Boolean>(true);
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
-  const handlerAddTodo = (event: MouseEvent<HTMLButtonElement>) => {
+  const handlerAddTodo = () => {
     const payload: TodoProps = {
       title: "test",
       body: "hi there",
@@ -53,19 +55,26 @@ function TodoBoard() {
     dispatch({ type: "ADD_TODO", payload });
   };
 
-  const handlerRemoveTodo = (
-    todoId: number,
-  ) => {
+  const handlerRemoveTodo = (todoId: number) => {
     const payload = todoId;
 
     dispatch({ type: "REMOVE_TODO", payload });
   };
 
-  const handlerMarkAsDone = (todoId: number) => dispatch({ type: "MARK_COMPLETED", payload: todoId})
+  const handlerMarkAsDone = (todoId: number) =>
+    dispatch({ type: "MARK_COMPLETED", payload: todoId });
 
   const filterTodosBy: any = (status = "done") =>
-    state.todos.filter((todo: any) => todo.status === status)
-  .map((todo: any) => <TodoItem handlerMarkAsDone={handlerMarkAsDone} handlerRemoveTodo={handlerRemoveTodo} key={todo.id} todo={todo} />) 
+    state.todos
+      .filter((todo: any) => todo.status === status)
+      .map((todo: any) => (
+        <TodoItem
+          handlerMarkAsDone={handlerMarkAsDone}
+          handlerRemoveTodo={handlerRemoveTodo}
+          key={todo.id}
+          todo={todo}
+        />
+      ));
 
   return (
     <TodoBody>
@@ -73,11 +82,19 @@ function TodoBoard() {
         <div>
           <SimpleBtn onClick={handlerAddTodo}>Add Todo</SimpleBtn>
         </div>
+        <div>
+          <SimpleBtn onClick={() => setListMode(!listMode)}>
+            Mode: {listMode ? "List" : "Board"}
+          </SimpleBtn>
+        </div>
       </ActionBar>
-      <TodoStatusContainer direction="column">
-        <TodoContainer>{  filterTodosBy("undone") } </TodoContainer>
-        <TodoContainer>{  filterTodosBy("doing") } </TodoContainer>
-        <TodoContainer>{  filterTodosBy() } </TodoContainer>
+      <TodoStatusContainer direction={listMode ? "column" : "row"}>
+        <h2>Undone</h2>
+        <TodoContainer>{filterTodosBy("undone")} </TodoContainer>
+        <h1>In progress </h1>
+        <TodoContainer>{filterTodosBy("doing")} </TodoContainer>
+        <h1>Done</h1>
+        <TodoContainer>{filterTodosBy()} </TodoContainer>
       </TodoStatusContainer>
     </TodoBody>
   );
