@@ -1,14 +1,13 @@
 import React, { ReactElement } from "react";
 import styled from 'styled-components'
 
-import TodoItem from 'components/TodoItem'
 
-// TODO: Todos elements 
+// TODO: Todos elements types instead of "any"
 export interface TodoContainerProps {
-  todos: any; 
+  // children: React.ReactElement[]; 
+  children: any;
 }
 
-// HACK: 
 // TODO: Fix flex containers growing so they are reducing themself
 const TodoContainerUI = styled.section`
   flex: 1 0 auto;
@@ -18,11 +17,11 @@ const TodoContainerUI = styled.section`
 `;
 
 export default function TodoContainer(
-  { todos }: TodoContainerProps
+  props: TodoContainerProps
 ): ReactElement | null {
   return (
     <TodoContainerUI>
-      { todos.map((todo: any) => <TodoItem todo={todo} />) }
+      { props.children }
     </TodoContainerUI>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useReducer, MouseEvent } from "react";
 import styled from "styled-components";
 import TodoContainer from "components/TodoContainer";
+import TodoItem from 'components/TodoItem'
+
 import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoProps } from "./models/Todo.interface";
@@ -52,9 +54,8 @@ function TodoBoard() {
     dispatch({ type: "ADD_TODO", payload });
   };
 
-  const handlerRemoveTodo = (
+  const handleRemoveTodo = (
     todoId: number,
-    event: MouseEvent<HTMLButtonElement>
   ) => {
     const payload = todoId;
 
@@ -62,7 +63,8 @@ function TodoBoard() {
   };
 
   const filterTodosBy: any = (status = "done") =>
-    state.todos.filter((todo: any) => todo.status === status);
+    state.todos.filter((todo: any) => todo.status === status)
+  .map((todo: any) => <TodoItem handleRemoveTodo={handleRemoveTodo} key={todo.id} todo={todo} />) 
 
   return (
     <TodoBody>
@@ -72,9 +74,9 @@ function TodoBoard() {
         </div>
       </ActionBar>
       <TodoStatusContainer direction="column">
-        <TodoContainer todos={filterTodosBy("undone")} />
-        <TodoContainer todos={filterTodosBy("done")} />
-        <TodoContainer todos={filterTodosBy()} />
+        <TodoContainer>{  filterTodosBy("undone") } </TodoContainer>
+        <TodoContainer>{  filterTodosBy("done") } </TodoContainer>
+        <TodoContainer>{  filterTodosBy() } </TodoContainer>
       </TodoStatusContainer>
     </TodoBody>
   );
