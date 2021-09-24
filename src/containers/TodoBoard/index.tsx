@@ -36,12 +36,6 @@ const TodoStatusContainer = styled.section<ITodoStatusContainer>`
   justify-content: space-between;
 `;
 
-const UnDoneTodo = styled.section`
-  flex-grow: 1;
-  background: #e8ddb5;
-  border: 1px solid;
-  border-radius: 5px;
-`;
 
 const SimpleBtn = styled(InvertedBtn)``;
 
