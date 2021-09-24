@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from "react";
+import {  handlerTodoType  } from 'containers/TodoBoard/models/Todo.interface'
 import styled from "styled-components";
 
-// NOTE: Typescript does not pass methods when you use spread, so we will lose our methods
+// NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work 
 export interface TodoItemProps {
   todo: any;
-  handlerRemoveTodo: (todoId: number) => void;
-  handlerMarkAsDone: (todoId: number) => void;
+  toggleModal: handlerTodoType; 
+  handlerRemoveTodo: handlerTodoType; 
+  handlerMarkAsDone: handlerTodoType; 
 }
 
 const Todo = styled.div`
@@ -23,6 +25,7 @@ const TodoActions = styled.div``;
 
 export default function TodoItem({
   todo,
+  toggleModal,
   handlerRemoveTodo,
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
@@ -34,11 +37,7 @@ export default function TodoItem({
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
     >
-      {showEdit ? (
-        <TodoTitle> Click to edit </TodoTitle>
-      ) : (
-        <TodoTitle>{todo.title}</TodoTitle>
-      )}
+      <TodoTitle onClick={() => toggleModal(todo.id)}>{showEdit ? "Click to edit" : todo.title}</TodoTitle>
 
       <TodoActions>
         <button onClick={() => handlerMarkAsDone(todo.id)}>Done</button>

@@ -5,7 +5,7 @@ import TodoItem from "components/TodoItem";
 
 import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
-import { TodoProps } from "./models/Todo.interface";
+import { TodoProps, handlerTodoType } from "./models/Todo.interface";
 
 const TodoBody = styled.div`
   display: grid;
@@ -43,6 +43,7 @@ const SimpleBtn = styled(InvertedBtn)``;
 
 function TodoBoard() {
   const [listMode, setListMode] = useState<Boolean>(true);
+  const [showModal, setShowModal] = useState<String>('')
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
   const handlerAddTodo = () => {
@@ -55,14 +56,17 @@ function TodoBoard() {
     dispatch({ type: "ADD_TODO", payload });
   };
 
-  const handlerRemoveTodo = (todoId: number) => {
-    const payload = todoId;
+  const toggleModal: handlerTodoType = (todoId) => {
 
-    dispatch({ type: "REMOVE_TODO", payload });
+  }
+
+  const handlerRemoveTodo: handlerTodoType = (todoId) => { 
+    dispatch({ type: "REMOVE_TODO", payload: todoId });
   };
 
-  const handlerMarkAsDone = (todoId: number) =>
+  const handlerMarkAsDone: handlerTodoType = (todoId) => {
     dispatch({ type: "MARK_COMPLETED", payload: todoId });
+  }
 
   const filterTodosBy: any = (status = "done") =>
     state.todos
@@ -71,6 +75,7 @@ function TodoBoard() {
         <TodoItem
           handlerMarkAsDone={handlerMarkAsDone}
           handlerRemoveTodo={handlerRemoveTodo}
+          toggleModal={toggleModal}
           key={todo.id}
           todo={todo}
         />

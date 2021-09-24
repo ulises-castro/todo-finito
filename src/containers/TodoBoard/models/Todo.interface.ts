@@ -1,5 +1,5 @@
 export interface TodoBase {
-  id?: Number | String;
+  id?: String;
   title: String;
   body: String;
   date?: Date;
@@ -14,11 +14,13 @@ export type TodoReducerState = {
   todos: TodoProps[];
 };
 
+export type handlerTodoType = (todoId: string) => void 
+
 export const ADD_TODO = "ADD_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const MARK_COMPLETED = 'MARK_COMPLETED'
 
 export type TodoAction =
   | { type: typeof ADD_TODO; payload: TodoBase }
-  | { type: typeof REMOVE_TODO; payload: number }
-  | { type: typeof MARK_COMPLETED; payload: number }; 
+  | { type: typeof REMOVE_TODO; payload: string }
+  | { type: typeof MARK_COMPLETED; payload: string }; 
