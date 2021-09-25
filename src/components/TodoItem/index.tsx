@@ -1,13 +1,13 @@
 import React, { ReactElement, useState } from "react";
-import {  handlerTodoType  } from 'containers/TodoBoard/models/Todo.interface'
+import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
 import styled from "styled-components";
 
-// NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work 
+// NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 export interface TodoItemProps {
   todo: any;
-  toggleModal: handlerTodoType; 
-  handlerRemoveTodo: handlerTodoType; 
-  handlerMarkAsDone: handlerTodoType; 
+  handlerEditTodo?: any;
+  handlerRemoveTodo: handlerTodoType;
+  handlerMarkAsDone: handlerTodoType;
 }
 
 const Todo = styled.div`
@@ -22,14 +22,22 @@ const Todo = styled.div`
 
 const TodoTitle = styled.div``;
 const TodoActions = styled.div``;
+const Input = styled.input``;
 
 export default function TodoItem({
   todo,
-  toggleModal,
+  handlerEditTodo,
   handlerRemoveTodo,
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
+  const [value, setValue] = useState(todo.title)
+
+  const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault()
+
+    handlerEditTodo(value)
+  }  
 
   return (
     <Todo
@@ -37,7 +45,17 @@ export default function TodoItem({
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
     >
-      <TodoTitle onClick={() => toggleModal(todo.id)}>{showEdit ? "Click to edit" : todo.title}</TodoTitle>
+      <TodoTitle onClick={() => false}>
+        {showEdit ? (
+          <form onSubmit={handlerUpdateTodoTitle}>
+            <Input type="text" value={value} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value) } />
+            <button type="submit"> Ok </button>
+            <button type="button" onClick={() => setValue('')}> Clear </button>
+          </form>
+        ) : (
+          todo.title
+        )}
+      </TodoTitle>
 
       <TodoActions>
         <button onClick={() => handlerMarkAsDone(todo.id)}>Done</button>
