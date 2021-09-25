@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import styled from 'styled-components'
 
-
-// TODO: Todos elements types instead of "any"
+// TODO: Assigned correct ones types instead of "any"
 export interface TodoContainerProps {
   // children: React.ReactElement[]; 
   children: any;
+  title: string;
 }
 
 // TODO: Fix flex containers growing so they are reducing themself
@@ -15,11 +15,12 @@ const TodoContainerUI = styled.section`
 `;
 
 export default function TodoContainer(
-  props: TodoContainerProps
+  { title, children }: TodoContainerProps
 ): ReactElement | null {
   return (
     <TodoContainerUI>
-      { props.children }
+      <h1> { title } </h1>
+      { children }
     </TodoContainerUI>
   );
 }

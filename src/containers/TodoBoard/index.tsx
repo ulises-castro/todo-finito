@@ -2,44 +2,10 @@ import React, { useReducer, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
+import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar } from './styled';
 
-import { InvertedBtn } from "components/Button";
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoProps, handlerTodoType } from "./models/Todo.interface";
-
-const TodoBody = styled.div`
-  display: grid;
-  justify-content: center;
-  grid-template-areas:
-    "action-bar"
-    "todo-container";
-  height: 100vh;
-  width: 100vw;
-`;
-
-const ActionBar = styled.header`
-  grid-area: action-bar;
-  display: flex;
-  align-items: center;
-  justify-content: end;
-`;
-
-interface ITodoStatusContainer {
-  direction?: string;
-}
-
-const TodoStatusContainer = styled.section<ITodoStatusContainer>`
-  grid-area: todo-container;
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 15px;
-  height: 500px;
-  width: 800px;
-  flex-direction: ${(props) => props.direction || "row"};
-  justify-content: space-between;
-`;
-
-const SimpleBtn = styled(InvertedBtn)``;
 
 function TodoBoard() {
   const [listMode, setListMode] = useState<Boolean>(true);
@@ -57,7 +23,7 @@ function TodoBoard() {
   };
 
   const toggleModal: handlerTodoType = (todoId) => {
-
+    setShowModal(todoId) 
   }
 
   const handlerRemoveTodo: handlerTodoType = (todoId) => { 
@@ -94,12 +60,9 @@ function TodoBoard() {
         </div>
       </ActionBar>
       <TodoStatusContainer direction={listMode ? "column" : "row"}>
-        <h2>Undone</h2>
-        <TodoContainer>{filterTodosBy("undone")} </TodoContainer>
-        <h1>In progress </h1>
-        <TodoContainer>{filterTodosBy("doing")} </TodoContainer>
-        <h1>Done</h1>
-        <TodoContainer>{filterTodosBy()} </TodoContainer>
+        <TodoContainer title="Un-Done">{filterTodosBy("undone")} </TodoContainer>
+        <TodoContainer title="In Progress">{filterTodosBy("doing")} </TodoContainer>
+        <TodoContainer title="Completed">{filterTodosBy()} </TodoContainer>
       </TodoStatusContainer>
     </TodoBody>
   );
