@@ -38,8 +38,8 @@ function TodoBoard() {
       .map((todo: any) => (
         <TodoItem
           // TODO: Create its own type for this because it is used more than once 
-          handlerEditTodo={(todoId: string, newTitle: string) =>
-            handlerEditTodo(todoId, newTitle)
+          handlerEditTodo={(newTitle: string) =>
+            handlerEditTodo(todo.id, newTitle)
           }
           handlerMarkAsDone={handlerMarkAsDone}
           handlerRemoveTodo={handlerRemoveTodo}

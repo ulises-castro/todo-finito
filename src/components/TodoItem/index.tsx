@@ -37,6 +37,7 @@ export default function TodoItem({
     event.preventDefault()
 
     handlerEditTodo(value)
+    setShowEdit(false)
   }  
 
   return (

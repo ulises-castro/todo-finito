@@ -61,6 +61,7 @@ const todoReducer = (
       );
       const todos = [...state.todos];
 
+      console.log(action.payload)
       todos[findIndex].title = action.payload.newTitle; 
 
       return {
