@@ -61,8 +61,8 @@ export default function TodoItem({
     setTodoPosition({ top: event.pageY, left: event.pageX, hidden: true });
 
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-    console.log(elemBelow);
     lastElementFromPoint = elemBelow
+
     setTodoPosition({ top: event.pageY, left: event.pageX });
   }, []);
 
@@ -72,7 +72,7 @@ export default function TodoItem({
 
   const handlerMouseUp = (event: React.MouseEvent<HTMLElement>) => {
     setTodoPosition({ top: 0, left: 0 });
-    console.log(lastElementFromPoint.className)
+
     if (lastElementFromPoint && lastElementFromPoint.className.includes('droppable-element')) {
       const status = lastElementFromPoint.className.split('--')[1]
       handlerEditTodo({ ...todo, status  })
