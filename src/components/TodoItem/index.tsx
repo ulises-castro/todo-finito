@@ -10,10 +10,20 @@ export interface TodoItemProps {
   handlerMarkAsDone: handlerTodoType;
 }
 
-const Todo = styled.div`
+//TODO: Specify what kind of type is position
+const Todo = styled.div<{ position: any }>`
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  position: ${props => props.position.top ? 'absolute' : 'initial'};
+  ${props => {
+    if (props.position.top) {
+      return `
+        top: ${props.position.top}px;
+        left: ${props.position.left}px;
+      `  
+    }
+  }}
   &:hover {
     background: red;
     cursor: pointer;
@@ -31,6 +41,8 @@ export default function TodoItem({
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
+  const [todoPosition, setTodoPosition] = useState<{ top: number, left: number}>( { top: 0, left: 0})
+
   const [value, setValue] = useState(todo.title)
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
@@ -40,11 +52,24 @@ export default function TodoItem({
     setShowEdit(false)
   }  
 
+  function onMouseMove (event: any) {
+    setTodoPosition({ top: event.pageY, left: event.pageX })
+  }
+
+  const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    setTodoPosition({ top: 30, left: 30 })    
+
+    document.addEventListener('mousemove', onMouseMove)
+  }
+
   return (
     <Todo
       key={todo.id}
+      position={todoPosition}
+      onMouseDown={handlerMouseDown}
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
+      
     >
       <TodoTitle onClick={() => false}>
         {showEdit ? (
