@@ -2,7 +2,7 @@ import {
   ADD_TODO,
   REMOVE_TODO,
   MARK_COMPLETED,
-  UPDATE_TODO_TITLE,
+  UPDATE_TODO,
   TodoAction,
   TodoProps,
   TodoReducerState,
@@ -13,7 +13,7 @@ const defaultTodo: TodoBase = {
   id: "Hxd324Jsi",
   title: "First Todo",
   body: "",
-  status: "undone",
+  status: "un-done",
   date: new Date(),
 };
 
@@ -33,7 +33,7 @@ const todoReducer = (
 
       const newTodo: TodoProps = {
         id: randomId,
-        status: "undone",
+        status: "un-done",
         ...(action.payload as TodoProps),
       };
 
@@ -48,21 +48,21 @@ const todoReducer = (
       );
       const todos = [...state.todos];
 
-      todos[findIndex].status = "done";
+      todos[findIndex].status = "completed";
 
       return {
         ...state,
         todos,
       };
     }
-    case UPDATE_TODO_TITLE: {
+    case UPDATE_TODO: {
       const findIndex = state.todos.findIndex(
         (todo) => todo.id === action.payload.todoId
       );
       const todos = [...state.todos];
 
       console.log(action.payload)
-      todos[findIndex].title = action.payload.newTitle; 
+      todos[findIndex] = action.payload.data; 
 
       return {
         ...state,

@@ -44,5 +44,8 @@
   },
   "resolutions": {
     "styled-components": "^5"
+  },
+  "devDependencies": {
+    "prettier": "2.4.1"
   }
 }

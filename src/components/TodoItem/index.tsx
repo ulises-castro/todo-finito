@@ -3,6 +3,7 @@ import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
 import styled from "styled-components";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
+// TODO: Remove any type and asign a real type for "handlerEditTodo"
 export interface TodoItemProps {
   todo: any;
   handlerEditTodo?: any;
@@ -16,6 +17,7 @@ const Todo = styled.div.attrs<{ position: any }>((props) => ({
     position: props.position.top ? "absolute" : "initial",
     top: `${props.position.top}px`,
     left: `${props.position.left}px`,
+    display: props.position.hidden ? "none" : "flex",
   },
 }))<{ position: any }>`
   display: flex;
@@ -31,6 +33,8 @@ const TodoTitle = styled.div``;
 const TodoActions = styled.div``;
 const Input = styled.input``;
 
+let lastElementFromPoint: any  = null
+
 export default function TodoItem({
   todo,
   handlerEditTodo,
@@ -41,37 +45,50 @@ export default function TodoItem({
   const [todoPosition, setTodoPosition] = useState<{
     top: number;
     left: number;
-  }>({ top: 0, left: 0 });
+    hidden?: boolean;
+  }>({ top: 0, left: 0, hidden: false });
 
   const [value, setValue] = useState(todo.title);
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
 
-    handlerEditTodo(value);
+    handlerEditTodo({ ...todo, title: value});
     setShowEdit(false);
   };
 
   const onMouseMove = React.useCallback((event: any) => {
-    setTodoPosition({ top: event.pageY, left: event.pageX })
-  }, [])
+    setTodoPosition({ top: event.pageY, left: event.pageX, hidden: true });
+
+    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+    console.log(elemBelow);
+    lastElementFromPoint = elemBelow
+    setTodoPosition({ top: event.pageY, left: event.pageX });
+  }, []);
 
   const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    setTodoPosition({ top: 30, left: 30 });
-
     document.addEventListener("mousemove", onMouseMove);
   };
 
   const handlerMouseUp = (event: React.MouseEvent<HTMLElement>) => {
-    document.removeEventListener("mousemove", onMouseMove)
-  }
+    setTodoPosition({ top: 0, left: 0 });
+    console.log(lastElementFromPoint.className)
+    if (lastElementFromPoint && lastElementFromPoint.className.includes('droppable-element')) {
+      const status = lastElementFromPoint.className.split('--')[1]
+      handlerEditTodo({ ...todo, status  })
+    }
+
+    lastElementFromPoint = null
+    document.removeEventListener("mousemove", onMouseMove);
+  };
 
   return (
     <Todo
       key={todo.id}
+      // ref={}
       position={todoPosition}
-      onMouseDown={handlerMouseDown}
       onMouseUp={handlerMouseUp}
+      onMouseDown={handlerMouseDown}
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
     >

@@ -4,7 +4,7 @@ import TodoItem from "components/TodoItem";
 import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar } from "./styled";
 
 import todoReducer, { initialTodoState } from "./todoReducer";
-import { TodoProps, handlerTodoType } from "./models/Todo.interface";
+import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
 
 function TodoBoard() {
   const [listMode, setListMode] = useState<Boolean>(true);
@@ -28,18 +28,18 @@ function TodoBoard() {
     dispatch({ type: "MARK_COMPLETED", payload: todoId });
   };
 
-  const handlerEditTodo = (todoId: string, newTitle: string) => {
-    dispatch({ type: "UPDATE_TODO_TITLE", payload: { todoId, newTitle } });
+  const handlerEditTodo = (todoId: string, data: TodoBase): void => {
+    dispatch({ type: "UPDATE_TODO", payload: { todoId, data } });
   };
 
-  const filterTodosBy: any = (status = "done") =>
+  const filterTodosBy: any = (status = "completed") =>
     state.todos
       .filter((todo: any) => todo.status === status)
       .map((todo: any) => (
         <TodoItem
           // TODO: Create its own type for this because it is used more than once 
-          handlerEditTodo={(newTitle: string) =>
-            handlerEditTodo(todo.id, newTitle)
+          handlerEditTodo={(data: TodoBase) =>
+            handlerEditTodo(todo.id, data)
           }
           handlerMarkAsDone={handlerMarkAsDone}
           handlerRemoveTodo={handlerRemoveTodo}
@@ -61,9 +61,9 @@ function TodoBoard() {
         </div>
       </ActionBar>
       <TodoStatusContainer direction={listMode ? "column" : "row"}>
-        <TodoContainer title="Un-Done">{filterTodosBy("undone")}</TodoContainer>
-        <TodoContainer title="In Progress">
-          {filterTodosBy("doing")}
+        <TodoContainer title="Un-Done">{filterTodosBy("un-done")}</TodoContainer>
+        <TodoContainer title="In-Progress">
+          {filterTodosBy("in-progress")}
         </TodoContainer>
         <TodoContainer title="Completed">{filterTodosBy()} </TodoContainer>
       </TodoStatusContainer>

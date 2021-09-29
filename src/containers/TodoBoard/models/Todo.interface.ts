@@ -3,7 +3,7 @@ export interface TodoBase {
   title: String;
   body: String;
   date?: Date;
-  status?: "undone" | "doing" | "done";
+  status?: "un-done" | "in-progress" | "completed";
 }
 
 export interface TodoProps extends TodoBase {
@@ -16,18 +16,18 @@ export type TodoReducerState = {
 
 export type handlerTodoType = (todoId: string) => void 
 
-export type TodoUpdateTitle = {
+export type TodoUpdateType = {
     todoId: string;
-    newTitle: string;
-  }
+    data: TodoBase;
+}
 
 export const ADD_TODO = "ADD_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const MARK_COMPLETED = 'MARK_COMPLETED'
-export const UPDATE_TODO_TITLE = 'UPDATE_TODO_TITLE'
+export const UPDATE_TODO = 'UPDATE_TODO'
 
 export type TodoAction =
   | { type: typeof ADD_TODO; payload: TodoBase }
   | { type: typeof REMOVE_TODO; payload: string }
   | { type: typeof MARK_COMPLETED; payload: string }
-  | { type: typeof UPDATE_TODO_TITLE; payload: TodoUpdateTitle  }; 
+  | { type: typeof UPDATE_TODO; payload: TodoUpdateType  }; 
