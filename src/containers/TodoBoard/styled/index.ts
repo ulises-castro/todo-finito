@@ -3,6 +3,7 @@ import { InvertedBtn } from "components/Button";
 
 export const TodoBody = styled.div`
   display: grid;
+  background-color: #344fa1;
   justify-content: center;
   grid-template-areas:
     "action-bar"

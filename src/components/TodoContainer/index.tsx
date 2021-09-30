@@ -18,7 +18,7 @@ export default function TodoContainer(
   { title, children }: TodoContainerProps
 ): ReactElement | null {
   return (
-    <TodoContainerUI>
+    <TodoContainerUI className={`droppable-element--${title.toLowerCase()}`}>
       <h1> { title } </h1>
       { children }
     </TodoContainerUI>
