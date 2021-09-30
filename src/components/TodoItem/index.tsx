@@ -12,6 +12,8 @@ export interface TodoItemProps {
 }
 
 //TODO: Specify what kind of type is position
+//TODO: Change position props for style.
+//TODO: Compose Drag-Drop in a components to re-used it
 const Todo = styled.div.attrs<{ position: any }>((props) => ({
   style: {
     position: props.position.top ? "absolute" : "initial",
@@ -33,7 +35,7 @@ const TodoTitle = styled.div``;
 const TodoActions = styled.div``;
 const Input = styled.input``;
 
-let lastElementFromPoint: any  = null
+let lastElementFromPoint: any = null;
 
 export default function TodoItem({
   todo,
@@ -53,7 +55,7 @@ export default function TodoItem({
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
 
-    handlerEditTodo({ ...todo, title: value});
+    handlerEditTodo({ ...todo, title: value });
     setShowEdit(false);
   };
 
@@ -61,31 +63,34 @@ export default function TodoItem({
     setTodoPosition({ top: event.pageY, left: event.pageX, hidden: true });
 
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-    lastElementFromPoint = elemBelow
+    lastElementFromPoint = elemBelow;
 
     setTodoPosition({ top: event.pageY, left: event.pageX });
   }, []);
 
   const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
     document.addEventListener("mousemove", onMouseMove);
   };
 
   const handlerMouseUp = (event: React.MouseEvent<HTMLElement>) => {
     setTodoPosition({ top: 0, left: 0 });
 
-    if (lastElementFromPoint && lastElementFromPoint.className.includes('droppable-element')) {
-      const status = lastElementFromPoint.className.split('--')[1]
-      handlerEditTodo({ ...todo, status  })
+    if (
+      lastElementFromPoint &&
+      lastElementFromPoint.className.includes("droppable-element")
+    ) {
+      const status = lastElementFromPoint.className.split("--")[1];
+      handlerEditTodo({ ...todo, status });
     }
 
-    lastElementFromPoint = null
+    lastElementFromPoint = null;
     document.removeEventListener("mousemove", onMouseMove);
   };
 
   return (
     <Todo
       key={todo.id}
-      // ref={}
       position={todoPosition}
       onMouseUp={handlerMouseUp}
       onMouseDown={handlerMouseDown}
@@ -104,8 +109,7 @@ export default function TodoItem({
             />
             <button type="submit"> Ok </button>
             <button type="button" onClick={() => setValue("")}>
-              {" "}
-              Clear{" "}
+              Clear
             </button>
           </form>
         ) : (

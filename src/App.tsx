@@ -3,7 +3,7 @@ import 'App.css'
 
 function App() {
   return (
-    <div style={{background: '#373F51'}}>
+    <div>
       <TodoBoard />
     </div>
   );
