@@ -22,9 +22,14 @@ const Todo = styled.div.attrs<{ position: any }>((props) => ({
     display: props.position.hidden ? "none" : "flex",
   },
 }))<{ position: any }>`
+  background: white;
+  -webkit-box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
+  -moz-box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
+  box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  border-radius: 5px;
   &:hover {
     background: red;
     cursor: pointer;
@@ -69,7 +74,7 @@ export default function TodoItem({
   }, []);
 
   const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     document.addEventListener("mousemove", onMouseMove);
   };
 

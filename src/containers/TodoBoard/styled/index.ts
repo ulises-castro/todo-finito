@@ -2,27 +2,16 @@ import styled from "styled-components";
 import { InvertedBtn } from "components/Button";
 
 export const TodoBody = styled.div`
-  --bg_1: url("skull.svg") calc(100% - 55px) / 50px no-repeat;
-  --bg_2: url("skull.svg") top 10px right 10px / 50px no-repeat;
-  --bg_3: url("skull.svg") bottom 10px right 10px / 50px no-repeat;
-  --bg_4: url("skull.svg") bottom 10px left 10px / 50px no-repeat;
-
   background: ${() => {
     let back = "";
-    const randomX = [20, 30, 50];
+
     for (let i = 1; i < 25; i++) {
-      for (let j = 1; j < 25; j++) {
-        const ifEvenPlus = !(i % 2) ? 200 : 1;
+      for (let j = 1; j < 15; j++) {
+        const ifEvenPlus = !(i % 2) ? 50 : 1;
 
         back += `url("skull.svg") calc(100% - ${10 * i * 10 - ifEvenPlus}px) calc(100% - ${
-          ( 50 * j ) - ifEvenPlus 
+          ( 100 * j - ifEvenPlus) 
         }px) / 50px no-repeat,`;
-        // back += `url("skull.svg") calc(100% - ${15 * i * 10}px) calc(100% - ${
-        //   10 * i * 25
-        // }px) / 50px no-repeat,`;
-        // back += `url("skull.svg") calc(100% - ${1 * i * 10}px) calc(100% - ${
-        //   10 * i * 25
-        // }px) / 50px no-repeat,`;
       }
     }
 
@@ -32,13 +21,23 @@ export const TodoBody = styled.div`
   background-color: #344fa1;
   justify-content: center;
   grid-template-areas:
+    "header"
     "action-bar"
     "todo-container";
   height: 100vh;
   width: 100vw;
 `;
 
-export const ActionBar = styled.header`
+export const Header = styled.header`
+  display: flex;
+  justify-content: center;
+  & h1 {
+    font-size: 3.5rem;
+    color: white;
+  }
+`
+
+export const ActionBar = styled.section`
   grid-area: action-bar;
   display: flex;
   align-items: center;
