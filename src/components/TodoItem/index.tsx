@@ -23,9 +23,8 @@ const Todo = styled.div.attrs<{ position: any }>((props) => ({
   },
 }))<{ position: any }>`
   background: white;
-  -webkit-box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
-  -moz-box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
-  box-shadow: -1px 6px 11px 0px rgba(50, 50, 50, 0.38);
+-webkit-box-shadow: 0px 0px 6px 1px #ECEFF5; 
+box-shadow: 0px 0px 6px 1px #ECEFF5;
   display: flex;
   justify-content: space-between;
   padding: 1rem;

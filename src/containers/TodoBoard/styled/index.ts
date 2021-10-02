@@ -1,24 +1,26 @@
 import styled from "styled-components";
 import { InvertedBtn } from "components/Button";
 
+// NOTE: REmove this after aply new styles
+  // background: ${() => {
+  //   let back = "";
+
+  //   for (let i = 1; i < 25; i++) {
+  //     for (let j = 1; j < 15; j++) {
+  //       const ifEvenPlus = !(i % 2) ? 50 : 1;
+
+  //       back += `url("skull.svg") calc(100% - ${10 * i * 10 - ifEvenPlus}px) calc(100% - ${
+  //         ( 100 * j - ifEvenPlus) 
+  //       }px) / 50px no-repeat,`;
+  //     }
+  //   }
+
+  //   return back.slice(0, -1);
+  // }}; 
+
 export const TodoBody = styled.div`
-  background: ${() => {
-    let back = "";
-
-    for (let i = 1; i < 25; i++) {
-      for (let j = 1; j < 15; j++) {
-        const ifEvenPlus = !(i % 2) ? 50 : 1;
-
-        back += `url("skull.svg") calc(100% - ${10 * i * 10 - ifEvenPlus}px) calc(100% - ${
-          ( 100 * j - ifEvenPlus) 
-        }px) / 50px no-repeat,`;
-      }
-    }
-
-    return back.slice(0, -1);
-  }};
   display: grid;
-  background-color: #344fa1;
+  background-color: #fafcff;
   justify-content: center;
   grid-template-areas:
     "header"
@@ -33,7 +35,7 @@ export const Header = styled.header`
   justify-content: center;
   & h1 {
     font-size: 3.5rem;
-    color: white;
+    color: var(--primary-font-color);
   }
 `
 

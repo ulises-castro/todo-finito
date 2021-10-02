@@ -12,6 +12,9 @@ export interface TodoContainerProps {
 const TodoContainerUI = styled.section`
   flex: 1 0 auto;
   border-radius: 5px;
+  & h2 {
+    font-weight: 300;
+  }
 `;
 
 export default function TodoContainer(
@@ -19,7 +22,7 @@ export default function TodoContainer(
 ): ReactElement | null {
   return (
     <TodoContainerUI className={`droppable-element--${title.toLowerCase()}`}>
-      <h1> { title } </h1>
+      <h2> { title } </h2>
       { children }
     </TodoContainerUI>
   );

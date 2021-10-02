@@ -65,7 +65,7 @@ function TodoBoard() {
       </ActionBar>
       <TodoStatusContainer direction={listMode}>
         <TodoContainer title="Tasks">{filterTodosBy()}</TodoContainer>
-        { (listMode) &&(
+        { (listMode) && (
           <>
         <TodoContainer title="Un-Done">{filterTodosBy("un-done")}</TodoContainer>
         <TodoContainer title="In-Progress">
