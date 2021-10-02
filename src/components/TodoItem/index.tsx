@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
+import { ShadowBox } from 'containers/TodoBoard/styled'
 import styled from "styled-components";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
@@ -14,7 +15,7 @@ export interface TodoItemProps {
 //TODO: Specify what kind of type is position
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
-const Todo = styled.div.attrs<{ position: any }>((props) => ({
+const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
   style: {
     position: props.position.top ? "absolute" : "initial",
     top: `${props.position.top}px`,
@@ -23,15 +24,11 @@ const Todo = styled.div.attrs<{ position: any }>((props) => ({
   },
 }))<{ position: any }>`
   background: white;
--webkit-box-shadow: 0px 0px 6px 1px #ECEFF5; 
-box-shadow: 0px 0px 6px 1px #ECEFF5;
   display: flex;
   justify-content: space-between;
   padding: 1rem;
   border-radius: 5px;
   &:hover {
-    background: red;
-    cursor: pointer;
   }
 `;
 
