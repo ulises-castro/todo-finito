@@ -40,8 +40,9 @@ const HorizontalLine = styled.div`
   background: #dc3838;
   position: absolute;
   top: calc(50%);
-  left: 20px;
+  right: 40px;
 
+  ${(props: { showAnimation: Boolean}) => (props.showAnimation) ? ` 
   animation-name: drawLine;
   animation-duration: 1500ms;
 
@@ -51,9 +52,10 @@ const HorizontalLine = styled.div`
     }
 
     to {
-      width: 95%;
+      width: 90%;
     }
   }
+  ` : 'display: none'}
 `;
 
 const TodoTitle = styled.div``;
@@ -69,6 +71,7 @@ export default function TodoItem({
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
+  const [showDeleteAnimation, setShowDeleteAnimation] = useState<Boolean>(false)
   const [todoPosition, setTodoPosition] = useState<{
     top: number;
     left: number;
@@ -114,16 +117,16 @@ export default function TodoItem({
   };
 
   return (
-    <div style={{ position: 'relative',padding: "5px 0" }}>
+    <div style={{ position: "relative", padding: "5px 0" }}>
       <Todo
         key={todo.id}
         position={todoPosition}
-        onMouseUp={handlerMouseUp}
-        onMouseDown={handlerMouseDown}
+        //onMouseUp={handlerMouseUp}
+        //onMouseDown={handlerMouseDown}
         onMouseEnter={() => setShowEdit(true)}
         onMouseLeave={() => setShowEdit(false)}
       >
-        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)}/>
+        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)} />
         <TodoTitle onClick={() => false}>
           {showEdit ? (
             <form onSubmit={handlerUpdateTodoTitle}>
@@ -145,10 +148,12 @@ export default function TodoItem({
         </TodoTitle>
 
         <TodoActions>
+          <div onClick={() => setShowDeleteAnimation(true)}>
           <DeleteBtn />
+          </div>
         </TodoActions>
       </Todo>
-      <HorizontalLine />
+      <HorizontalLine showAnimation={showDeleteAnimation}/>
     </div>
   );
 }
