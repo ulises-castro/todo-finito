@@ -1,6 +1,9 @@
 import React, { ReactElement, useState } from "react";
-import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
 import styled from "styled-components";
+import DeleteBtn from "components/DeleteBtn";
+import CheckBtn from "components/CheckBtn";
+import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
+import { ShadowBox } from "containers/TodoBoard/styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -14,7 +17,7 @@ export interface TodoItemProps {
 //TODO: Specify what kind of type is position
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
-const Todo = styled.div.attrs<{ position: any }>((props) => ({
+const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
   style: {
     position: props.position.top ? "absolute" : "initial",
     top: `${props.position.top}px`,
@@ -22,16 +25,48 @@ const Todo = styled.div.attrs<{ position: any }>((props) => ({
     display: props.position.hidden ? "none" : "flex",
   },
 }))<{ position: any }>`
+  background: white;
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  border-radius: 5px;
   &:hover {
-    background: red;
-    cursor: pointer;
   }
 `;
 
-const TodoTitle = styled.div``;
+const HorizontalLine = styled.div`
+  height: 3px;
+  width: 0%;
+  background: #dc3838;
+  position: absolute;
+  top: calc(50%);
+  right: 40px;
+
+  ${(props: { showAnimation: Boolean }) =>
+    props.showAnimation
+      ? ` 
+  animation-name: drawLine;
+  animation-duration: 1500ms;
+
+  @keyframes drawLine {
+    from {
+      width: 5%;
+    }
+
+    to {
+      width: 90%;
+    }
+  }
+  `
+      : "display: none"}
+`;
+
+const TodoTitle = styled.div`
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: start;
+`;
 const TodoActions = styled.div``;
 const Input = styled.input``;
 
@@ -44,6 +79,8 @@ export default function TodoItem({
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
+  const [showDeleteAnimation, setShowDeleteAnimation] =
+    useState<Boolean>(false);
   const [todoPosition, setTodoPosition] = useState<{
     top: number;
     left: number;
@@ -51,6 +88,21 @@ export default function TodoItem({
   }>({ top: 0, left: 0, hidden: false });
 
   const [value, setValue] = useState(todo.title);
+
+  // TODO: Compose this animations listeners into a component in order to divide responsabilities, following SOLID princicples.
+  // NOTE: Check the animation for mark as completed (checked tasks as well)
+  React.useEffect(() => {
+    function functionFactory() {
+      console.log('hola')    
+      handlerRemoveTodo(todo.id)
+    }
+
+    document.addEventListener('animationend', functionFactory)
+
+    return () => {
+      document.removeEventListener('animationend', functionFactory)
+    }
+  }, [])
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
@@ -69,11 +121,11 @@ export default function TodoItem({
   }, []);
 
   const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     document.addEventListener("mousemove", onMouseMove);
   };
 
-  const handlerMouseUp = (event: React.MouseEvent<HTMLElement>) => {
+  const handlerMouseUp = () => {
     setTodoPosition({ top: 0, left: 0 });
 
     if (
@@ -89,38 +141,43 @@ export default function TodoItem({
   };
 
   return (
-    <Todo
-      key={todo.id}
-      position={todoPosition}
-      onMouseUp={handlerMouseUp}
-      onMouseDown={handlerMouseDown}
-      onMouseEnter={() => setShowEdit(true)}
-      onMouseLeave={() => setShowEdit(false)}
-    >
-      <TodoTitle onClick={() => false}>
-        {showEdit ? (
-          <form onSubmit={handlerUpdateTodoTitle}>
-            <Input
-              type="text"
-              value={value}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setValue(event.target.value)
-              }
-            />
-            <button type="submit"> Ok </button>
-            <button type="button" onClick={() => setValue("")}>
-              Clear
-            </button>
-          </form>
-        ) : (
-          todo.title
-        )}
-      </TodoTitle>
+    <div style={{ position: "relative", padding: "5px 0" }}>
+      <Todo
+        key={todo.id}
+        position={todoPosition}
+        //onMouseUp={handlerMouseUp}
+        //onMouseDown={handlerMouseDown}
+        onMouseEnter={() => setShowEdit(true)}
+        onMouseLeave={() => setShowEdit(false)}
+      >
+        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)} />
+        <TodoTitle onClick={() => false}>
+          {showEdit ? (
+            <form onSubmit={handlerUpdateTodoTitle}>
+              <Input
+                type="text"
+                value={value}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setValue(event.target.value)
+                }
+              />
+              <button type="submit"> Ok </button>
+              <button type="button" onClick={() => setValue("")}>
+                Clear
+              </button>
+            </form>
+          ) : (
+            todo.title
+          )}
+        </TodoTitle>
 
-      <TodoActions>
-        <button onClick={() => handlerMarkAsDone(todo.id)}>Done</button>
-        <button onClick={() => handlerRemoveTodo(todo.id)}>Delete</button>
-      </TodoActions>
-    </Todo>
+        <TodoActions>
+          <div onClick={() => setShowDeleteAnimation(true)}>
+            <DeleteBtn />
+          </div>
+        </TodoActions>
+      </Todo>
+      <HorizontalLine showAnimation={showDeleteAnimation} />
+    </div>
   );
 }

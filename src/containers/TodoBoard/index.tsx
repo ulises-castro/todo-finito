@@ -1,13 +1,13 @@
 import React, { useReducer, MouseEvent, useState } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
-import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar } from "./styled";
+import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar, Header } from "./styled";
 
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
 
 function TodoBoard() {
-  const [listMode, setListMode] = useState<Boolean>(true);
+  const [listMode, setListMode] = useState<"board"| "list" | "">('');
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
   const handlerAddTodo = () => {
@@ -32,9 +32,9 @@ function TodoBoard() {
     dispatch({ type: "UPDATE_TODO", payload: { todoId, data } });
   };
 
-  const filterTodosBy: any = (status = "completed") =>
+  const filterTodosBy: any = (status = "") =>
     state.todos
-      .filter((todo: any) => todo.status === status)
+  .filter((todo: any) => (status) ? todo.status === status : true)
       .map((todo: any) => (
         <TodoItem
           // TODO: Create its own type for this because it is used more than once 
@@ -50,22 +50,30 @@ function TodoBoard() {
 
   return (
     <TodoBody>
+      <Header>
+        <h1> TodoFinito </h1>
+      </Header>
       <ActionBar>
         <div>
           <SimpleBtn onClick={handlerAddTodo}>Add Todo</SimpleBtn>
         </div>
         <div>
-          <SimpleBtn onClick={() => setListMode(!listMode)}>
-            Mode: {listMode ? "List" : "Board"}
+          <SimpleBtn onClick={() => setListMode('')}>
+            Mode: listMode
           </SimpleBtn>
         </div>
       </ActionBar>
-      <TodoStatusContainer direction={listMode ? "column" : "row"}>
+      <TodoStatusContainer direction={listMode}>
+        <TodoContainer title="Tasks">{filterTodosBy()}</TodoContainer>
+        { (listMode) && (
+          <>
         <TodoContainer title="Un-Done">{filterTodosBy("un-done")}</TodoContainer>
         <TodoContainer title="In-Progress">
           {filterTodosBy("in-progress")}
         </TodoContainer>
-        <TodoContainer title="Completed">{filterTodosBy()} </TodoContainer>
+        <TodoContainer title="Completed">{filterTodosBy('completed')} </TodoContainer>
+          </>
+        ) }
       </TodoStatusContainer>
     </TodoBody>
   );
