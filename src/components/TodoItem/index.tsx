@@ -42,7 +42,9 @@ const HorizontalLine = styled.div`
   top: calc(50%);
   right: 40px;
 
-  ${(props: { showAnimation: Boolean}) => (props.showAnimation) ? ` 
+  ${(props: { showAnimation: Boolean }) =>
+    props.showAnimation
+      ? ` 
   animation-name: drawLine;
   animation-duration: 1500ms;
 
@@ -55,10 +57,16 @@ const HorizontalLine = styled.div`
       width: 90%;
     }
   }
-  ` : 'display: none'}
+  `
+      : "display: none"}
 `;
 
-const TodoTitle = styled.div``;
+const TodoTitle = styled.div`
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: start;
+`;
 const TodoActions = styled.div``;
 const Input = styled.input``;
 
@@ -71,7 +79,8 @@ export default function TodoItem({
   handlerMarkAsDone,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
-  const [showDeleteAnimation, setShowDeleteAnimation] = useState<Boolean>(false)
+  const [showDeleteAnimation, setShowDeleteAnimation] =
+    useState<Boolean>(false);
   const [todoPosition, setTodoPosition] = useState<{
     top: number;
     left: number;
@@ -79,6 +88,21 @@ export default function TodoItem({
   }>({ top: 0, left: 0, hidden: false });
 
   const [value, setValue] = useState(todo.title);
+
+  // TODO: Compose this animations listeners into a component in order to divide responsabilities, following SOLID princicples.
+  // NOTE: Check the animation for mark as completed (checked tasks as well)
+  React.useEffect(() => {
+    function functionFactory() {
+      console.log('hola')    
+      handlerRemoveTodo(todo.id)
+    }
+
+    document.addEventListener('animationend', functionFactory)
+
+    return () => {
+      document.removeEventListener('animationend', functionFactory)
+    }
+  }, [])
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
@@ -149,11 +173,11 @@ export default function TodoItem({
 
         <TodoActions>
           <div onClick={() => setShowDeleteAnimation(true)}>
-          <DeleteBtn />
+            <DeleteBtn />
           </div>
         </TodoActions>
       </Todo>
-      <HorizontalLine showAnimation={showDeleteAnimation}/>
+      <HorizontalLine showAnimation={showDeleteAnimation} />
     </div>
   );
 }
