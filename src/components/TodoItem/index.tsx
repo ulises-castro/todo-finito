@@ -36,18 +36,14 @@ const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
 
 const HorizontalLine = styled.div`
   height: 3px;
-  width: 5%;
+  width: 0%;
   background: #dc3838;
   position: absolute;
   top: calc(50%);
   left: 20px;
 
-  display: none;
-
-  :hover {
-    animation-name: drawLine;
-    animation-duration: 3s;
-  }
+  animation-name: drawLine;
+  animation-duration: 1500ms;
 
   @keyframes drawLine {
     from {
@@ -55,7 +51,7 @@ const HorizontalLine = styled.div`
     }
 
     to {
-      width: 90%;
+      width: 95%;
     }
   }
 `;
@@ -118,7 +114,7 @@ export default function TodoItem({
   };
 
   return (
-    <div style={{ padding: "5px 0" }}>
+    <div style={{ position: 'relative',padding: "5px 0" }}>
       <Todo
         key={todo.id}
         position={todoPosition}
