@@ -1,7 +1,9 @@
 import React, { ReactElement, useState } from "react";
-import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
-import { ShadowBox } from 'containers/TodoBoard/styled'
 import styled from "styled-components";
+import DeleteBtn from "components/DeleteBtn";
+import CheckBtn from "components/CheckBtn";
+import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
+import { ShadowBox } from "containers/TodoBoard/styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -29,6 +31,32 @@ const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
   padding: 1rem;
   border-radius: 5px;
   &:hover {
+  }
+`;
+
+const HorizontalLine = styled.div`
+  height: 3px;
+  width: 5%;
+  background: #dc3838;
+  position: absolute;
+  top: calc(50%);
+  left: 20px;
+
+  display: none;
+
+  :hover {
+    animation-name: drawLine;
+    animation-duration: 3s;
+  }
+
+  @keyframes drawLine {
+    from {
+      width: 5%;
+    }
+
+    to {
+      width: 90%;
+    }
   }
 `;
 
@@ -74,7 +102,7 @@ export default function TodoItem({
     document.addEventListener("mousemove", onMouseMove);
   };
 
-  const handlerMouseUp = (event: React.MouseEvent<HTMLElement>) => {
+  const handlerMouseUp = () => {
     setTodoPosition({ top: 0, left: 0 });
 
     if (
@@ -90,38 +118,41 @@ export default function TodoItem({
   };
 
   return (
-    <Todo
-      key={todo.id}
-      position={todoPosition}
-      onMouseUp={handlerMouseUp}
-      onMouseDown={handlerMouseDown}
-      onMouseEnter={() => setShowEdit(true)}
-      onMouseLeave={() => setShowEdit(false)}
-    >
-      <TodoTitle onClick={() => false}>
-        {showEdit ? (
-          <form onSubmit={handlerUpdateTodoTitle}>
-            <Input
-              type="text"
-              value={value}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setValue(event.target.value)
-              }
-            />
-            <button type="submit"> Ok </button>
-            <button type="button" onClick={() => setValue("")}>
-              Clear
-            </button>
-          </form>
-        ) : (
-          todo.title
-        )}
-      </TodoTitle>
+    <div style={{ padding: "5px 0" }}>
+      <Todo
+        key={todo.id}
+        position={todoPosition}
+        onMouseUp={handlerMouseUp}
+        onMouseDown={handlerMouseDown}
+        onMouseEnter={() => setShowEdit(true)}
+        onMouseLeave={() => setShowEdit(false)}
+      >
+        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)}/>
+        <TodoTitle onClick={() => false}>
+          {showEdit ? (
+            <form onSubmit={handlerUpdateTodoTitle}>
+              <Input
+                type="text"
+                value={value}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setValue(event.target.value)
+                }
+              />
+              <button type="submit"> Ok </button>
+              <button type="button" onClick={() => setValue("")}>
+                Clear
+              </button>
+            </form>
+          ) : (
+            todo.title
+          )}
+        </TodoTitle>
 
-      <TodoActions>
-        <button onClick={() => handlerMarkAsDone(todo.id)}>Done</button>
-        <button onClick={() => handlerRemoveTodo(todo.id)}>Delete</button>
-      </TodoActions>
-    </Todo>
+        <TodoActions>
+          <DeleteBtn />
+        </TodoActions>
+      </Todo>
+      <HorizontalLine />
+    </div>
   );
 }
