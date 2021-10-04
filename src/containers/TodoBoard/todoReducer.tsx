@@ -12,7 +12,6 @@ import {
 const defaultTodo: TodoBase = {
   id: "Hxd324Jsi",
   title: "First Todo",
-  body: "",
   status: "un-done",
   date: new Date(),
 };

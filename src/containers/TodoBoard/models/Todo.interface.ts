@@ -1,7 +1,7 @@
 export interface TodoBase {
   id?: String;
   title: String;
-  body: String;
+  body?: String;
   date?: Date;
   status?: "un-done" | "in-progress" | "completed";
 }

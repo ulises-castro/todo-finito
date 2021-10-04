@@ -1,4 +1,4 @@
-import React, { useReducer, MouseEvent, useState } from "react";
+import React, { useReducer, useState } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
 import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar, Header } from "./styled";
@@ -12,8 +12,7 @@ function TodoBoard() {
 
   const handlerAddTodo = () => {
     const payload: TodoProps = {
-      title: "test",
-      body: "hi there",
+      title: "This is my first task",
       date: new Date(),
     };
 

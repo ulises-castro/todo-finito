@@ -7,9 +7,17 @@ const CheckButton = styled(IconButton)`
   border: 2px solid #eaeaea;
   border-radius: 50%;
   color: #62bb62;
+  & > * {
+    display: none;  
+    transition: display 2s;
+  }
+
+  &:hover > * {
+    display: block;
+  }
 `;
 
-export default function CheckBtn( { onClick }: { onClick: () => void}): ReactElement | null {
+export default function CheckBtn(): ReactElement | null {
   return (
     <>
       <CheckButton>

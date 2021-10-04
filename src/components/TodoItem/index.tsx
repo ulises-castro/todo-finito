@@ -62,6 +62,8 @@ const HorizontalLine = styled.div`
 `;
 
 const TodoTitle = styled.div`
+  text-decoration: ${(props: { completed: Boolean }) =>
+    props.completed ? `line-through` : `none`}; 
   display: flex;
   align-items: center;
   flex-grow: 1;
@@ -93,16 +95,15 @@ export default function TodoItem({
   // NOTE: Check the animation for mark as completed (checked tasks as well)
   React.useEffect(() => {
     function functionFactory() {
-      console.log('hola')    
-      handlerRemoveTodo(todo.id)
+      handlerRemoveTodo(todo.id);
     }
 
-    document.addEventListener('animationend', functionFactory)
+    document.addEventListener("animationend", functionFactory);
 
     return () => {
-      document.removeEventListener('animationend', functionFactory)
-    }
-  }, [])
+      document.removeEventListener("animationend", functionFactory);
+    };
+  }, []);
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
@@ -150,8 +151,13 @@ export default function TodoItem({
         onMouseEnter={() => setShowEdit(true)}
         onMouseLeave={() => setShowEdit(false)}
       >
-        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)} />
-        <TodoTitle onClick={() => false}>
+        <div onClick={() => handlerMarkAsDone(todo.id)}>
+          <CheckBtn />
+        </div>
+        <TodoTitle
+          onClick={() => false}
+          completed={todo.status === "completed"}
+        >
           {showEdit ? (
             <form onSubmit={handlerUpdateTodoTitle}>
               <Input
@@ -171,6 +177,7 @@ export default function TodoItem({
           )}
         </TodoTitle>
 
+        {todo.status !== "completed"}
         <TodoActions>
           <div onClick={() => setShowDeleteAnimation(true)}>
             <DeleteBtn />
