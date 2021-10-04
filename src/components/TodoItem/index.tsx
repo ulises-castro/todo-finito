@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DeleteBtn from "components/DeleteBtn";
 import CheckBtn from "components/CheckBtn";
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
-import { ShadowBox } from "containers/TodoBoard/styled";
+import { ShadowBox, Flex } from "containers/TodoBoard/styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -151,9 +151,9 @@ export default function TodoItem({
         onMouseEnter={() => setShowEdit(true)}
         onMouseLeave={() => setShowEdit(false)}
       >
-        <div onClick={() => handlerMarkAsDone(todo.id)}>
+        <Flex onClick={() => handlerMarkAsDone(todo.id)}>
           <CheckBtn />
-        </div>
+        </Flex>
         <TodoTitle
           onClick={() => false}
           completed={todo.status === "completed"}
@@ -179,9 +179,9 @@ export default function TodoItem({
 
         {todo.status !== "completed"}
         <TodoActions>
-          <div onClick={() => setShowDeleteAnimation(true)}>
+          <Flex onClick={() => setShowDeleteAnimation(true)}>
             <DeleteBtn />
-          </div>
+          </Flex>
         </TodoActions>
       </Todo>
       <HorizontalLine showAnimation={showDeleteAnimation} />

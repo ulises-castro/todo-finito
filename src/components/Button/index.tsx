@@ -15,12 +15,16 @@ export const InvertedBtn = styled(Button)`
   border-color: white;
 `;
 
-export const IconButton = styled.button`
-  border: none;
+export const IconButton = styled.a`
   display: flex;
   background: white;
+  justify-content: center;
+  align-items: center;
   padding: 0;
+  border: none;
   width: 1.6rem;
+  font-size: 1.6rem;
+
   &:hover {
     cursor: pointer;
   }
