@@ -35,12 +35,12 @@ const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
 `;
 
 const HorizontalLine = styled.div`
-  height: 3px;
+  height: 2px;
   width: 0%;
-  background: #dc3838;
+  background: #ff1c1c;
   position: absolute;
-  top: calc(50%);
-  right: 40px;
+  top: calc(50% - 1px);
+  right: 32px;
 
   ${(props: { showAnimation: Boolean }) =>
     props.showAnimation
