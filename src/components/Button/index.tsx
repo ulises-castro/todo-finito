@@ -8,6 +8,7 @@ const Button = styled.button`
   padding: 0.3rem;
   cursor: pointer;
 `;
+
 export const InvertedBtn = styled(Button)`
   background: white;
   color: #80a1c1;

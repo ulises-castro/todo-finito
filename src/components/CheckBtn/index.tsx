@@ -5,8 +5,10 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 
 const CheckButton = styled(IconButton)`
   color: #62bb62;
-
+  
+  // TODO: Move this to a one function; Avoid Closures issues
   & .circle {
+    display: ${(props: {showIcon: Boolean }) => props.showIcon ? 'none':  'block'}; 
     width: 18px;
     height: 18px;
     border: 2px solid #eaeaea;
@@ -14,7 +16,7 @@ const CheckButton = styled(IconButton)`
   }
 
   & > svg {
-    display: none;
+    display: ${(props: {showIcon: Boolean }) => props.showIcon ? 'block':  'none'}; 
     transition: display 2s;
   }
 
@@ -22,19 +24,19 @@ const CheckButton = styled(IconButton)`
     border: none;
 
     & > .circle {
-      display: none;
+      display: ${(props: {showIcon: Boolean }) => props.showIcon ? 'block':  'none'};
     }
 
     & > svg {
-      display: block;
+      display: ${(props: { showIcon: Boolean }) => props.showIcon ? 'none':  'block'};
     }
   }
 `;
 
-export default function CheckBtn(): ReactElement | null {
+export default function CheckBtn({showIcon} : { showIcon: Boolean }): ReactElement | null {
   return (
     <>
-      <CheckButton>
+      <CheckButton showIcon={showIcon}>
         <div className="circle"></div>
         <IoCheckmarkCircle size={"100%"} />
       </CheckButton>

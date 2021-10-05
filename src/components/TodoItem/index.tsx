@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
 import DeleteBtn from "components/DeleteBtn";
+import EditBtn from "components/EditBtn";
 import CheckBtn from "components/CheckBtn";
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
 import { ShadowBox, Flex } from "containers/TodoBoard/styled";
@@ -17,20 +18,23 @@ export interface TodoItemProps {
 //TODO: Specify what kind of type is position
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
-const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
+const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
   style: {
-    position: props.position.top ? "absolute" : "initial",
-    top: `${props.position.top}px`,
-    left: `${props.position.left}px`,
-    display: props.position.hidden ? "none" : "flex",
+    position: position.top ? "absolute" : "initial",
+    top: `${position.top}px`,
+    left: `${position.left}px`,
+    display: position.hidden ? "none" : "flex",
   },
-}))<{ position: any }>`
+}))`
   background: white;
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
   border-radius: 5px;
+  opacity: ${({ completed }: { completed: Boolean }) =>
+    completed ? ".5" : "1"};
+
   &:hover {
+    opacity: 1;
   }
 `;
 
@@ -63,13 +67,15 @@ const HorizontalLine = styled.div`
 
 const TodoTitle = styled.div`
   text-decoration: ${(props: { completed: Boolean }) =>
-    props.completed ? `line-through` : `none`}; 
+    props.completed ? `line-through` : `none`};
   display: flex;
   align-items: center;
   flex-grow: 1;
   justify-content: start;
 `;
-const TodoActions = styled.div``;
+const TodoActions = styled.div`
+  display: flex;
+`;
 const Input = styled.input``;
 
 let lastElementFromPoint: any = null;
@@ -141,23 +147,19 @@ export default function TodoItem({
     document.removeEventListener("mousemove", onMouseMove);
   };
 
+  const isTodoCompleted = todo.status === "completed";
+
   return (
     <div style={{ position: "relative", padding: "5px 0" }}>
       <Todo
         key={todo.id}
+        completed={isTodoCompleted}
         position={todoPosition}
-        //onMouseUp={handlerMouseUp}
-        //onMouseDown={handlerMouseDown}
-        onMouseEnter={() => setShowEdit(true)}
-        onMouseLeave={() => setShowEdit(false)}
       >
-        <Flex onClick={() => handlerMarkAsDone(todo.id)}>
-          <CheckBtn />
+        <Flex onClick={() => handlerMarkAsDone(todo.id)} style={{padding: '15px'}}>
+          <CheckBtn showIcon={isTodoCompleted} />
         </Flex>
-        <TodoTitle
-          onClick={() => false}
-          completed={todo.status === "completed"}
-        >
+        <TodoTitle onClick={() => false} completed={isTodoCompleted}>
           {showEdit ? (
             <form onSubmit={handlerUpdateTodoTitle}>
               <Input
@@ -179,7 +181,10 @@ export default function TodoItem({
 
         {todo.status !== "completed"}
         <TodoActions>
-          <Flex onClick={() => setShowDeleteAnimation(true)}>
+          <Flex onClick={() => setShowEdit(true)} style={{padding: '15px 5px 15px 15px '}}>
+            <EditBtn />
+          </Flex>
+          <Flex onClick={() => setShowDeleteAnimation(true)} style={{padding: '15px 15px'}}>
             <DeleteBtn />
           </Flex>
         </TodoActions>
