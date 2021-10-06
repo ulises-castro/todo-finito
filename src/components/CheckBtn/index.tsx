@@ -6,7 +6,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 const CheckButton = styled(IconButton)`
   color: #62bb62;
   
-  // TODO: Move this to a one function; Avoid Closures issues
+  // TODO: Move this to a one function; Avoid Closures issues refactorized this
   & .circle {
     display: ${(props: {showIcon: Boolean }) => props.showIcon ? 'none':  'block'}; 
     width: 18px;

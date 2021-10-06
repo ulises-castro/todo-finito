@@ -1,13 +1,16 @@
-import {
+import {                           
   ADD_TODO,
   REMOVE_TODO,
   MARK_COMPLETED,
+  TOGGLE_COMPLETED_STATUS,
   UPDATE_TODO,
   TodoAction,
   TodoProps,
   TodoReducerState,
   TodoBase,
 } from "./models/Todo.interface";
+
+import { getRandomAlphanumeric } from 'utils/helpers'
 
 const defaultTodo: TodoBase = {
   id: "Hxd324Jsi",
@@ -26,9 +29,7 @@ const todoReducer = (
 ): TodoReducerState => {
   switch (action.type) {
     case ADD_TODO: {
-      const randomId = [...Array(9)]
-        .map(() => (~~(Math.random() * 36)).toString(36))
-        .join("");
+      const randomId = getRandomAlphanumeric(9)
 
       const newTodo: TodoProps = {
         id: randomId,
@@ -40,6 +41,22 @@ const todoReducer = (
         ...state,
         todos: [...state.todos, newTodo],
       };
+    }
+    case TOGGLE_COMPLETED_STATUS: {
+      const findIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload
+      ); 
+      const todos = [...state.todos];
+
+      const targetTodo = todos[findIndex]
+      const newStatus = targetTodo.status !== 'completed' ? 'completed' : 'un-done'
+
+      targetTodo.status = newStatus; 
+
+      return {
+        ...state,
+        todos
+      }
     }
     case MARK_COMPLETED: {
       const findIndex = state.todos.findIndex(

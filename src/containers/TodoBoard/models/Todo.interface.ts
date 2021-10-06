@@ -24,10 +24,12 @@ export type TodoUpdateType = {
 export const ADD_TODO = "ADD_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const MARK_COMPLETED = 'MARK_COMPLETED'
+export const TOGGLE_COMPLETED_STATUS = 'TOGGLE_COMPLETED_STATUS'
 export const UPDATE_TODO = 'UPDATE_TODO'
 
 export type TodoAction =
   | { type: typeof ADD_TODO; payload: TodoBase }
   | { type: typeof REMOVE_TODO; payload: string }
   | { type: typeof MARK_COMPLETED; payload: string }
+  | { type: typeof TOGGLE_COMPLETED_STATUS; payload: string } 
   | { type: typeof UPDATE_TODO; payload: TodoUpdateType  }; 

@@ -12,10 +12,11 @@ export interface TodoItemProps {
   todo: any;
   handlerEditTodo?: any;
   handlerRemoveTodo: handlerTodoType;
-  handlerMarkAsDone: handlerTodoType;
+  handleToggleCompleted: handlerTodoType;
 }
 
-//TODO: Specify what kind of type is position
+//TODO: Specify what kind of type is position using an interface
+//TODO: In the outer type you can move the completed types to inner and reduce code
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
 const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
@@ -25,12 +26,13 @@ const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
     left: `${position.left}px`,
     display: position.hidden ? "none" : "flex",
   },
-}))`
+}))<{ position: any, completed: Boolean }>
+`
   background: white;
   display: flex;
   justify-content: space-between;
   border-radius: 5px;
-  opacity: ${({ completed }: { completed: Boolean }) =>
+  opacity: ${({ completed }) =>
     completed ? ".5" : "1"};
 
   &:hover {
@@ -84,7 +86,7 @@ export default function TodoItem({
   todo,
   handlerEditTodo,
   handlerRemoveTodo,
-  handlerMarkAsDone,
+  handleToggleCompleted,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
   const [showDeleteAnimation, setShowDeleteAnimation] =
@@ -156,7 +158,7 @@ export default function TodoItem({
         completed={isTodoCompleted}
         position={todoPosition}
       >
-        <Flex onClick={() => handlerMarkAsDone(todo.id)} style={{padding: '15px'}}>
+        <Flex onClick={() => handleToggleCompleted(todo.id)} style={{padding: '15px'}}>
           <CheckBtn showIcon={isTodoCompleted} />
         </Flex>
         <TodoTitle onClick={() => false} completed={isTodoCompleted}>

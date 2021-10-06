@@ -2,6 +2,7 @@ import React, { useReducer, useState } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
 import { TodoStatusContainer, SimpleBtn, TodoBody, ActionBar, Header } from "./styled";
+import { ADD_TODO, REMOVE_TODO, TOGGLE_COMPLETED_STATUS, UPDATE_TODO }  from "./models/Todo.interface"
 
 import todoReducer, { initialTodoState } from "./todoReducer";
 import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
@@ -16,19 +17,19 @@ function TodoBoard() {
       date: new Date(),
     };
 
-    dispatch({ type: "ADD_TODO", payload });
+    dispatch({ type: ADD_TODO, payload });
   };
 
   const handlerRemoveTodo: handlerTodoType = (todoId) => {
-    dispatch({ type: "REMOVE_TODO", payload: todoId });
+    dispatch({ type: REMOVE_TODO, payload: todoId });
   };
 
-  const handlerMarkAsDone: handlerTodoType = (todoId) => {
-    dispatch({ type: "MARK_COMPLETED", payload: todoId });
+  const handleToggleCompleted: handlerTodoType = (todoId) => {
+    dispatch({ type: TOGGLE_COMPLETED_STATUS, payload: todoId });
   };
 
   const handlerEditTodo = (todoId: string, data: TodoBase): void => {
-    dispatch({ type: "UPDATE_TODO", payload: { todoId, data } });
+    dispatch({ type: UPDATE_TODO, payload: { todoId, data } });
   };
 
   const filterTodosBy: any = (status = "") =>
@@ -40,7 +41,7 @@ function TodoBoard() {
           handlerEditTodo={(data: TodoBase) =>
             handlerEditTodo(todo.id, data)
           }
-          handlerMarkAsDone={handlerMarkAsDone}
+          handleToggleCompleted={handleToggleCompleted}
           handlerRemoveTodo={handlerRemoveTodo}
           key={todo.id}
           todo={todo}
