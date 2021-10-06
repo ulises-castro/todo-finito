@@ -48,11 +48,17 @@ const todoReducer = (
       ); 
       const todos = [...state.todos];
 
-      const targetTodo = todos[findIndex]
+
+      let targetTodo = todos[findIndex]
       const newStatus = targetTodo.status !== 'completed' ? 'completed' : 'un-done'
 
-      targetTodo.status = newStatus; 
+      console.log(action.payload, newStatus)
 
+      todos[findIndex] = {
+        ...targetTodo,
+        status: newStatus
+      }
+ 
       return {
         ...state,
         todos
@@ -69,7 +75,7 @@ const todoReducer = (
       return {
         ...state,
         todos,
-      };
+      }
     }
     case UPDATE_TODO: {
       const findIndex = state.todos.findIndex(

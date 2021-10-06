@@ -32,6 +32,7 @@ function TodoBoard() {
     dispatch({ type: UPDATE_TODO, payload: { todoId, data } });
   };
 
+  // TODO: This could be refactored 
   const filterTodosBy: any = (status = "") =>
     state.todos
   .filter((todo: any) => (status) ? todo.status === status : true)
