@@ -8,6 +8,7 @@ const Button = styled.button`
   padding: 0.3rem;
   cursor: pointer;
 `;
+
 export const InvertedBtn = styled(Button)`
   background: white;
   color: #80a1c1;
@@ -16,11 +17,15 @@ export const InvertedBtn = styled(Button)`
 `;
 
 export const IconButton = styled.button`
-  border: none;
   display: flex;
   background: white;
+  justify-content: center;
+  align-items: center;
   padding: 0;
+  border: none;
   width: 1.6rem;
+  font-size: 1.6rem;
+
   &:hover {
     cursor: pointer;
   }

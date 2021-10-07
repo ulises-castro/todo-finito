@@ -74,3 +74,7 @@ export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
 `;
 
 export const SimpleBtn = styled(InvertedBtn)``;
+
+export const Flex = styled.div`
+  display: flex;
+`

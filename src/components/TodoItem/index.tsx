@@ -1,9 +1,10 @@
 import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
 import DeleteBtn from "components/DeleteBtn";
+import EditBtn from "components/EditBtn";
 import CheckBtn from "components/CheckBtn";
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
-import { ShadowBox } from "containers/TodoBoard/styled";
+import { ShadowBox, Flex } from "containers/TodoBoard/styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -11,36 +12,39 @@ export interface TodoItemProps {
   todo: any;
   handlerEditTodo?: any;
   handlerRemoveTodo: handlerTodoType;
-  handlerMarkAsDone: handlerTodoType;
+  handleToggleCompleted: handlerTodoType;
 }
 
-//TODO: Specify what kind of type is position
+//TODO: Specify what kind of type is position using an interface
+//TODO: In the outer type you can move the completed types to inner and reduce code
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
-const Todo = styled(ShadowBox).attrs<{ position: any }>((props) => ({
+const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
   style: {
-    position: props.position.top ? "absolute" : "initial",
-    top: `${props.position.top}px`,
-    left: `${props.position.left}px`,
-    display: props.position.hidden ? "none" : "flex",
+    position: position.top ? "absolute" : "initial",
+    top: `${position.top}px`,
+    left: `${position.left}px`,
+    display: position.hidden ? "none" : "flex",
   },
-}))<{ position: any }>`
+}))<{ position: any; completed: Boolean }>`
   background: white;
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
   border-radius: 5px;
+  opacity: ${({ completed }) => (completed ? ".5" : "1")};
+
   &:hover {
+    opacity: 1;
   }
 `;
 
 const HorizontalLine = styled.div`
-  height: 3px;
+  height: 2px;
   width: 0%;
-  background: #dc3838;
+  background: #ff1c1c;
   position: absolute;
-  top: calc(50%);
-  right: 40px;
+  top: calc(50% - 1px);
+  right: 32px;
 
   ${(props: { showAnimation: Boolean }) =>
     props.showAnimation
@@ -62,12 +66,16 @@ const HorizontalLine = styled.div`
 `;
 
 const TodoTitle = styled.div`
+  text-decoration: ${(props: { completed: Boolean }) =>
+    props.completed ? `line-through` : `none`};
   display: flex;
   align-items: center;
   flex-grow: 1;
   justify-content: start;
 `;
-const TodoActions = styled.div``;
+const TodoActions = styled.div`
+  display: flex;
+`;
 const Input = styled.input``;
 
 let lastElementFromPoint: any = null;
@@ -76,7 +84,7 @@ export default function TodoItem({
   todo,
   handlerEditTodo,
   handlerRemoveTodo,
-  handlerMarkAsDone,
+  handleToggleCompleted,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
   const [showDeleteAnimation, setShowDeleteAnimation] =
@@ -93,16 +101,15 @@ export default function TodoItem({
   // NOTE: Check the animation for mark as completed (checked tasks as well)
   React.useEffect(() => {
     function functionFactory() {
-      console.log('hola')    
-      handlerRemoveTodo(todo.id)
+      handlerRemoveTodo(todo.id);
     }
 
-    document.addEventListener('animationend', functionFactory)
+    document.addEventListener("animationend", functionFactory);
 
     return () => {
-      document.removeEventListener('animationend', functionFactory)
-    }
-  }, [])
+      document.removeEventListener("animationend", functionFactory);
+    };
+  }, []);
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
@@ -140,18 +147,22 @@ export default function TodoItem({
     document.removeEventListener("mousemove", onMouseMove);
   };
 
+  const isTodoCompleted = todo.status === "completed";
+
+  const onClickToggleCompleted = (event: React.MouseEvent<HTMLElement>) => {
+    handleToggleCompleted(todo.id);
+  };
+
   return (
     <div style={{ position: "relative", padding: "5px 0" }}>
-      <Todo
-        key={todo.id}
-        position={todoPosition}
-        //onMouseUp={handlerMouseUp}
-        //onMouseDown={handlerMouseDown}
-        onMouseEnter={() => setShowEdit(true)}
-        onMouseLeave={() => setShowEdit(false)}
-      >
-        <CheckBtn onClick={() => handlerMarkAsDone(todo.id)} />
-        <TodoTitle onClick={() => false}>
+      <Todo key={todo.id} completed={isTodoCompleted} position={todoPosition}>
+        <Flex style={{ padding: "15px" }}>
+          <CheckBtn
+            onClick={onClickToggleCompleted}
+            showIcon={isTodoCompleted}
+          />
+        </Flex>
+        <TodoTitle onClick={() => false} completed={isTodoCompleted}>
           {showEdit ? (
             <form onSubmit={handlerUpdateTodoTitle}>
               <Input
@@ -171,10 +182,20 @@ export default function TodoItem({
           )}
         </TodoTitle>
 
+        {todo.status !== "completed"}
         <TodoActions>
-          <div onClick={() => setShowDeleteAnimation(true)}>
+          <Flex
+            onClick={() => setShowEdit(true)}
+            style={{ padding: "15px 5px 15px 15px " }}
+          >
+            <EditBtn />
+          </Flex>
+          <Flex
+            onClick={() => setShowDeleteAnimation(true)}
+            style={{ padding: "15px 15px" }}
+          >
             <DeleteBtn />
-          </div>
+          </Flex>
         </TodoActions>
       </Todo>
       <HorizontalLine showAnimation={showDeleteAnimation} />
