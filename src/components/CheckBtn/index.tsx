@@ -33,10 +33,15 @@ const CheckButton = styled(IconButton)`
   }
 `;
 
-export default function CheckBtn({showIcon} : { showIcon: Boolean }): ReactElement | null {
+interface CheckBtnProps {
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  showIcon?: Boolean;
+}
+
+export default function CheckBtn( { showIcon = false, onClick } : CheckBtnProps): ReactElement | null {
   return (
     <>
-      <CheckButton showIcon={showIcon}>
+      <CheckButton showIcon={showIcon} onClick={onClick}>
         <div className="circle"></div>
         <IoCheckmarkCircle size={"100%"} />
       </CheckButton>

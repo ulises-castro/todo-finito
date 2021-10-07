@@ -16,7 +16,7 @@ export const InvertedBtn = styled(Button)`
   border-color: white;
 `;
 
-export const IconButton = styled.a`
+export const IconButton = styled.button`
   display: flex;
   background: white;
   justify-content: center;

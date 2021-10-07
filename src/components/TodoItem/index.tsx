@@ -26,14 +26,12 @@ const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
     left: `${position.left}px`,
     display: position.hidden ? "none" : "flex",
   },
-}))<{ position: any, completed: Boolean }>
-`
+}))<{ position: any; completed: Boolean }>`
   background: white;
   display: flex;
   justify-content: space-between;
   border-radius: 5px;
-  opacity: ${({ completed }) =>
-    completed ? ".5" : "1"};
+  opacity: ${({ completed }) => (completed ? ".5" : "1")};
 
   &:hover {
     opacity: 1;
@@ -151,15 +149,18 @@ export default function TodoItem({
 
   const isTodoCompleted = todo.status === "completed";
 
+  const onClickToggleCompleted = (event: React.MouseEvent<HTMLElement>) => {
+    handleToggleCompleted(todo.id);
+  };
+
   return (
     <div style={{ position: "relative", padding: "5px 0" }}>
-      <Todo
-        key={todo.id}
-        completed={isTodoCompleted}
-        position={todoPosition}
-      >
-        <Flex onClick={() => handleToggleCompleted(todo.id)} style={{padding: '15px'}}>
-          <CheckBtn showIcon={isTodoCompleted} />
+      <Todo key={todo.id} completed={isTodoCompleted} position={todoPosition}>
+        <Flex style={{ padding: "15px" }}>
+          <CheckBtn
+            onClick={onClickToggleCompleted}
+            showIcon={isTodoCompleted}
+          />
         </Flex>
         <TodoTitle onClick={() => false} completed={isTodoCompleted}>
           {showEdit ? (
@@ -183,10 +184,16 @@ export default function TodoItem({
 
         {todo.status !== "completed"}
         <TodoActions>
-          <Flex onClick={() => setShowEdit(true)} style={{padding: '15px 5px 15px 15px '}}>
+          <Flex
+            onClick={() => setShowEdit(true)}
+            style={{ padding: "15px 5px 15px 15px " }}
+          >
             <EditBtn />
           </Flex>
-          <Flex onClick={() => setShowDeleteAnimation(true)} style={{padding: '15px 15px'}}>
+          <Flex
+            onClick={() => setShowDeleteAnimation(true)}
+            style={{ padding: "15px 15px" }}
+          >
             <DeleteBtn />
           </Flex>
         </TodoActions>
