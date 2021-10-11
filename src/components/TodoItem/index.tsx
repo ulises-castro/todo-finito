@@ -97,18 +97,14 @@ export default function TodoItem({
 
   const [value, setValue] = useState(todo.title);
 
-  // TODO: Compose this animations listeners into a component in order to divide responsabilities, following SOLID princicples.
-  // NOTE: Check the animation for mark as completed (checked tasks as well)
-  React.useEffect(() => {
+  const todoNode: any = React.useCallback((node: any) => {
     function functionFactory() {
       handlerRemoveTodo(todo.id);
     }
 
-    document.addEventListener("animationend", functionFactory);
-
-    return () => {
-      document.removeEventListener("animationend", functionFactory);
-    };
+    if (node !== null) {
+      node.addEventListener("animationend", functionFactory);
+    }
   }, []);
 
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
@@ -155,7 +151,12 @@ export default function TodoItem({
 
   return (
     <div style={{ position: "relative", padding: "5px 0" }}>
-      <Todo key={todo.id} completed={isTodoCompleted} position={todoPosition}>
+      <Todo
+        key={todo.id}
+        completed={isTodoCompleted}
+        position={todoPosition}
+        ref={todoNode}
+      >
         <Flex style={{ padding: "15px" }}>
           <CheckBtn
             onClick={onClickToggleCompleted}
@@ -197,8 +198,9 @@ export default function TodoItem({
             <DeleteBtn />
           </Flex>
         </TodoActions>
+
+        <HorizontalLine showAnimation={showDeleteAnimation} />
       </Todo>
-      <HorizontalLine showAnimation={showDeleteAnimation} />
     </div>
   );
 }

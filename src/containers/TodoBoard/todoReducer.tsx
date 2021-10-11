@@ -92,6 +92,7 @@ const todoReducer = (
       }  
     }
     case REMOVE_TODO: {
+      console.log(action)
       const filteredTodos = state.todos.filter(
         (todo: TodoBase) => todo.id !== action.payload
       );
