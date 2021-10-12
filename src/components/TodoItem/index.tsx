@@ -4,7 +4,7 @@ import DeleteBtn from "components/DeleteBtn";
 import EditBtn from "components/EditBtn";
 import CheckBtn from "components/CheckBtn";
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
-import { ShadowBox, Flex } from "containers/TodoBoard/styled";
+import { ShadowBox, Flex, SimpleBtn } from "containers/TodoBoard/styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -185,18 +185,37 @@ export default function TodoItem({
 
         {todo.status !== "completed"}
         <TodoActions>
-          <Flex
-            onClick={() => setShowEdit(true)}
-            style={{ padding: "15px 5px 15px 15px " }}
-          >
-            <EditBtn />
-          </Flex>
-          <Flex
-            onClick={() => setShowDeleteAnimation(true)}
-            style={{ padding: "15px 15px" }}
-          >
-            <DeleteBtn />
-          </Flex>
+          {showEdit ? (
+            <>
+              <Flex
+                onClick={() => setShowEdit(true)}
+                style={{ padding: "15px 0 15px 15px " }}
+              >
+                <SimpleBtn> Ok </SimpleBtn>
+              </Flex>
+              <Flex
+                onClick={() => setShowEdit(true)}
+                style={{ padding: "15px 5px 15px 15px " }}
+              >
+                <SimpleBtn> Cancel </SimpleBtn>
+              </Flex>
+            </>
+          ) : (
+            <>
+              <Flex
+                onClick={() => setShowEdit(true)}
+                style={{ padding: "15px 5px 15px 15px " }}
+              >
+                <EditBtn />
+              </Flex>
+              <Flex
+                onClick={() => setShowDeleteAnimation(true)}
+                style={{ padding: "15px 15px" }}
+              >
+                <DeleteBtn />
+              </Flex>
+            </>
+          )}
         </TodoActions>
 
         <HorizontalLine showAnimation={showDeleteAnimation} />

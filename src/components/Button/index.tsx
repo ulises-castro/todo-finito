@@ -11,9 +11,15 @@ const Button = styled.button`
 
 export const InvertedBtn = styled(Button)`
   background: white;
-  color: #80a1c1;
+  color: #5ba4f8;
   font-weight: bold;
-  border-color: white;
+  border: 2px solid #5ba4f8; 
+
+  &:hover, &:active {
+    background: #5ba4f8; 
+    color: white;
+  border: 2px solid #5ba4f8; 
+  }
 `;
 
 export const IconButton = styled.button`

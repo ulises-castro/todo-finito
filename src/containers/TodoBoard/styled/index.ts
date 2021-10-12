@@ -62,6 +62,7 @@ interface ITodoStatusContainer {
   direction?: string;
 }
 
+
 export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
   grid-area: todo-container;
   display: flex;
