@@ -1,22 +1,7 @@
 import styled from "styled-components";
 import { InvertedBtn } from "components/Button";
 
-// NOTE: REmove this after aply new styles
-// background: ${() => {
-//   let back = "";
-
-//   for (let i = 1; i < 25; i++) {
-//     for (let j = 1; j < 15; j++) {
-//       const ifEvenPlus = !(i % 2) ? 50 : 1;
-
-//       back += `url("skull.svg") calc(100% - ${10 * i * 10 - ifEvenPlus}px) calc(100% - ${
-//         ( 100 * j - ifEvenPlus)
-//       }px) / 50px no-repeat,`;
-//     }
-//   }
-
-//   return back.slice(0, -1);
-// }};
+// TODO: Move this into another file 
 
 export const TodoBody = styled.div`
   display: grid;
@@ -75,12 +60,18 @@ export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
 
 export const SimpleBtn = styled(InvertedBtn)``;
 
-export const Flex = styled.div.attrs((props: any) => ({
+interface FlexProps {
+  padding?: string,
+  justifyContent?: string,
+}
+
+export const Flex = styled.div.attrs<FlexProps>(({ padding, justifyContent }) => ({
   style: {
     display: "flex",
-    justifyContent: props.justifyContent || 'initial',
-  },
-}));
+    padding: padding || 'initial', 
+    justifyContent: justifyContent || 'initial',
+  }
+}))<FlexProps>``;
 
 export const Form = styled.form`
   display: flex;
