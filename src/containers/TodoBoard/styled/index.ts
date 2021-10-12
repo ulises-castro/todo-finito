@@ -62,7 +62,6 @@ interface ITodoStatusContainer {
   direction?: string;
 }
 
-
 export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
   grid-area: todo-container;
   display: flex;
@@ -76,6 +75,15 @@ export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
 
 export const SimpleBtn = styled(InvertedBtn)``;
 
-export const Flex = styled.div`
+export const Flex = styled.div.attrs((props: any) => ({
+  style: {
+    display: "flex",
+    justifyContent: props.justifyContent || 'initial',
+  },
+}));
+
+export const Form = styled.form`
   display: flex;
-`
+  width: 100%;
+  justify-content: space-between;
+`;
