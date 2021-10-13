@@ -2,9 +2,10 @@ import React, { ReactElement, useState } from "react";
 import DeleteBtn from "components/DeleteBtn";
 import EditBtn from "components/EditBtn";
 import CheckBtn from "components/CheckBtn";
+import { Flex, SimpleBtn, Form, Input } from "css-components";
+import { Todo, TodoActions, HorizontalLine, TodoEditCSS } from "./styled";
+
 import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
-import { Flex, SimpleBtn, Form } from "containers/TodoBoard/styled";
-import { Todo, TodoTitle, Input, TodoActions, HorizontalLine } from "./styled";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handlerEditTodo"
@@ -80,6 +81,38 @@ export default function TodoItem({
     document.removeEventListener("mousemove", onMouseMove);
   };
 
+  const TodoEdit = () => {
+    let todoEditBodyJSX = (showEdit) ? (<Form onSubmit={handlerUpdateTodoTitle}>
+          <Flex alignItems="center">
+            <Input
+              type="text"
+              value={value}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setValue(event.target.value)
+              }
+            />
+          </Flex>
+
+          <Flex padding="0 15px">
+            <div style={{ padding: "15px 0 15px 15px " }}>
+              <SimpleBtn type="submit"> Ok </SimpleBtn>
+            </div>
+            <div
+              onClick={() => setShowEdit(false)}
+              style={{ padding: "15px 5px 15px 15px " }}
+            >
+              <SimpleBtn> Cancel </SimpleBtn>
+            </div>
+          </Flex>
+    </Form>) : todo.title 
+    
+    return (
+      <TodoEditCSS completed={isTodoCompleted}>
+        { todoEditBodyJSX }
+      </TodoEditCSS>
+    );
+  };
+
   const isTodoCompleted = todo.status === "completed";
 
   const onClickToggleCompleted = (event: React.MouseEvent<HTMLElement>) => {
@@ -100,38 +133,8 @@ export default function TodoItem({
             showIcon={isTodoCompleted}
           />
         </Flex>
-        <TodoTitle onClick={() => false} completed={isTodoCompleted}>
-          {showEdit ? (
-            <Form onSubmit={handlerUpdateTodoTitle}>
-              <Flex>
-                <Input
-                  type="text"
-                  value={value}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setValue(event.target.value)
-                  }
-                />
-              </Flex>
 
-              <Flex padding="0 15px">
-                <div
-                  onClick={() => setShowEdit(true)}
-                  style={{ padding: "15px 0 15px 15px " }}
-                >
-                  <SimpleBtn type="submit"> Ok </SimpleBtn>
-                </div>
-                <div
-                  onClick={() => setValue("")}
-                  style={{ padding: "15px 5px 15px 15px " }}
-                >
-                  <SimpleBtn> Cancel </SimpleBtn>
-                </div>
-              </Flex>
-            </Form>
-          ) : (
-            todo.title
-          )}
-        </TodoTitle>
+        <TodoEdit />
 
         {!showEdit && (
           <TodoActions>

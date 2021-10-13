@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { ShadowBox } from "containers/TodoBoard/styled";
+import { ShadowBox } from "css-components";
 
+// NOTE: MOVE THIS AND COMPOSE INTO A DRAG-DROP FEATURE
 //TODO: Specify what kind of type is position using an interface
 //TODO: In the outer type you can move the completed types to inner and reduce code
 //TODO: Change position props for style.
@@ -52,7 +53,7 @@ export const HorizontalLine = styled.div`
       : "display: none"}
 `;
 
-export const TodoTitle = styled.div`
+export const TodoEditCSS = styled.div`
   text-decoration: ${(props: { completed: Boolean }) =>
     props.completed ? `line-through` : `none`};
   display: flex;
@@ -60,7 +61,8 @@ export const TodoTitle = styled.div`
   flex-grow: 1;
   justify-content: start;
 `;
+ 
 export const TodoActions = styled.div`
   display: flex;
 `;
-export const Input = styled.input``; 
+
