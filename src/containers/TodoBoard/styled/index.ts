@@ -16,7 +16,7 @@ export const ActionBar = styled.section`
   grid-area: action-bar;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
 `;
 
 interface ITodoStatusContainer {

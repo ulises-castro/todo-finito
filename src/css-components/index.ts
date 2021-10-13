@@ -47,4 +47,12 @@ export const Form = styled.form`
 `;
 
 export const SimpleBtn = styled(InvertedBtn)``;
-export const Input = styled.input``;
+export const Input = styled.input`
+  padding: 5px;
+  border: 2px solid #bdbdbd;
+
+  &:focus {
+    outline: none !important;
+    border: 2px solid #5ba4f8;
+  }
+`;

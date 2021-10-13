@@ -32,7 +32,7 @@ export const HorizontalLine = styled.div`
   background: #ff1c1c;
   position: absolute;
   top: calc(50% - 1px);
-  right: 32px;
+  right: 20px;
 
   ${(props: { showAnimation: Boolean }) =>
     props.showAnimation

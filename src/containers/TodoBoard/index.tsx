@@ -1,12 +1,9 @@
 import React, { useReducer, useState } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
-import {
-  TodoStatusContainer,
-  TodoBody,
-  ActionBar,
-} from "./styled";
-import { Header, SimpleBtn } from 'css-components'
+import { TodoStatusContainer, TodoBody, ActionBar } from "./styled";
+import { Form, Input } from "css-components";
+import { Header, SimpleBtn } from "css-components";
 import {
   ADD_TODO,
   REMOVE_TODO,
@@ -19,10 +16,13 @@ import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
 
 function TodoBoard() {
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
+  const [newTodoValue, setNewTodoValue] = React.useState<string>('')
 
-  const handlerAddTodo = () => {
+  const handleAddTodo = (event: any) => {
+    event.preventDefault()
+
     const payload: TodoProps = {
-      title: "This is my first task",
+      title: newTodoValue,
       date: new Date(),
     };
 
@@ -40,6 +40,10 @@ function TodoBoard() {
   const handlerEditTodo = (todoId: string, data: TodoBase): void => {
     dispatch({ type: UPDATE_TODO, payload: { todoId, data } });
   };
+
+  const handleChangeNewTodoValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoValue(event.target.value)
+  }
 
   // TODO: This could be refactored
   const filterTodosBy: any = (status = "") =>
@@ -62,9 +66,12 @@ function TodoBoard() {
         <h1> TodoFinito </h1>
       </Header>
       <ActionBar>
-        <div>
-          <SimpleBtn onClick={handlerAddTodo}>Add Todo</SimpleBtn>
-        </div>
+        <Form onSubmit={handleAddTodo}>
+          <div>
+            <Input type="text" value={newTodoValue} onChange={handleChangeNewTodoValue} placeholder="Write a new todo..." />
+            <SimpleBtn type="submit">Add Todo</SimpleBtn>
+          </div>
+        </Form>
       </ActionBar>
       <TodoStatusContainer>
         <TodoContainer title="Tasks">{filterTodosBy()}</TodoContainer>
