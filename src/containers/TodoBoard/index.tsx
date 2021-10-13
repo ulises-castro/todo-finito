@@ -17,6 +17,7 @@ import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
 function TodoBoard() {
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
   const [newTodoValue, setNewTodoValue] = React.useState<string>('')
+  const inputNewTodoRef = React.useRef<HTMLInputElement | null>(null)
 
   const handleAddTodo = (event: any) => {
     event.preventDefault()
@@ -27,6 +28,10 @@ function TodoBoard() {
     };
 
     dispatch({ type: ADD_TODO, payload });
+
+    setNewTodoValue('')
+
+    if (inputNewTodoRef.current) inputNewTodoRef.current.focus()
   };
 
   const handlerRemoveTodo: handlerTodoType = (todoId) => {
@@ -66,10 +71,10 @@ function TodoBoard() {
         <h1> TodoFinito </h1>
       </Header>
       <ActionBar>
-        <Form onSubmit={handleAddTodo}>
+        <Form onSubmit={handleAddTodo} justifyContent="center">
           <div>
-            <Input type="text" value={newTodoValue} onChange={handleChangeNewTodoValue} placeholder="Write a new todo..." />
-            <SimpleBtn type="submit">Add Todo</SimpleBtn>
+            <Input type="text" ref={inputNewTodoRef} value={newTodoValue} onChange={handleChangeNewTodoValue} placeholder="Write a new todo..." />
+            <SimpleBtn type="submit" disabled={!newTodoValue}>Add Todo</SimpleBtn>
           </div>
         </Form>
       </ActionBar>

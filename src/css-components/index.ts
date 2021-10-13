@@ -40,13 +40,22 @@ export const Flex = styled.div.attrs<FlexProps>(
   ${(props) => (props.alignItems ? `align-items: ${props.alignItems}` : ``)}
 `;
 
-export const Form = styled.form`
+interface FormType {
+  justifyContent?: string;
+}
+
+export const Form = styled.form<FormType>`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: ${props => props.justifyContent || 'space-between'};
 `;
 
-export const SimpleBtn = styled(InvertedBtn)``;
+export const SimpleBtn = styled(InvertedBtn)`
+  &:disabled {
+    opacity: 0.6;
+  }
+`;
+
 export const Input = styled.input`
   padding: 5px;
   border: 2px solid #bdbdbd;

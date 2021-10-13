@@ -81,40 +81,6 @@ export default function TodoItem({
     document.removeEventListener("mousemove", onMouseMove);
   };
 
-  const TodoEdit = () => {
-    let todoEditBodyJSX = showEdit ? (
-      <Form onSubmit={handlerUpdateTodoTitle}>
-        <Flex alignItems="center">
-          <Input
-            type="text"
-            value={value}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setValue(event.target.value)
-            }
-          />
-        </Flex>
-
-        <Flex padding="0 15px">
-          <div style={{ padding: "15px 0 15px 15px " }}>
-            <SimpleBtn type="submit"> Ok </SimpleBtn>
-          </div>
-          <div
-            onClick={() => setShowEdit(false)}
-            style={{ padding: "15px 5px 15px 15px " }}
-          >
-            <SimpleBtn> Cancel </SimpleBtn>
-          </div>
-        </Flex>
-      </Form>
-    ) : (
-      todo.title
-    );
-
-    return (
-      <TodoEditCSS completed={isTodoCompleted}>{todoEditBodyJSX}</TodoEditCSS>
-    );
-  };
-
   const isTodoCompleted = todo.status === "completed";
 
   const onClickToggleCompleted = (event: React.MouseEvent<HTMLElement>) => {
@@ -136,7 +102,35 @@ export default function TodoItem({
           />
         </Flex>
 
-        <TodoEdit />
+        <TodoEditCSS completed={isTodoCompleted}>
+          {showEdit ? (
+            <Form onSubmit={handlerUpdateTodoTitle}>
+              <Flex alignItems="center">
+                <Input
+                  type="text"
+                  value={value}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setValue(event.target.value)
+                  }
+                />
+              </Flex>
+
+              <Flex padding="0 15px">
+                <div style={{ padding: "15px 0 15px 15px " }}>
+                  <SimpleBtn type="submit"> Ok </SimpleBtn>
+                </div>
+                <div
+                  onClick={() => setShowEdit(false)}
+                  style={{ padding: "15px 5px 15px 15px " }}
+                >
+                  <SimpleBtn> Cancel </SimpleBtn>
+                </div>
+              </Flex>
+            </Form>
+          ) : (
+            todo.title
+          )}
+        </TodoEditCSS>
 
         {!showEdit && (
           <TodoActions>
