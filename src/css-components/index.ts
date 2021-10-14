@@ -50,15 +50,23 @@ export const Form = styled.form<FormType>`
   justify-content: ${props => props.justifyContent || 'space-between'};
 `;
 
-export const SimpleBtn = styled(InvertedBtn)`
+interface SimpleBtnProps {
+  padding?: string; 
+}
+
+// TODO: Compose this styled component better
+export const SimpleBtn = styled(InvertedBtn)<SimpleBtnProps>`
+  ${props => props.padding || ''}  
+
   &:disabled {
     opacity: 0.6;
   }
 `;
 
+
 export const Input = styled.input`
   padding: 5px;
-  border: 2px solid #bdbdbd;
+  border: 1px solid rgba(0,0,0,0.15);
 
   &:focus {
     outline: none !important;

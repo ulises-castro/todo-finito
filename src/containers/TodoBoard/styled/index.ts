@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SimpleBtn, Input } from 'css-components'
 
 export const TodoBody = styled.div`
   display: grid;
@@ -33,3 +34,14 @@ export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
   flex-direction: ${(props) => props.direction || "row"};
   justify-content: space-between;
 `;
+
+export const SquareBtn = styled(SimpleBtn)`
+  padding: 10px; 
+  text-transform: uppercase;
+  border-radius: 0;
+`
+
+export const SquareInput = styled(Input)`
+  border-radius: none;
+  border-right: none;
+`

@@ -52,8 +52,6 @@ const todoReducer = (
       let targetTodo = todos[findIndex]
       const newStatus = targetTodo.status !== 'completed' ? 'completed' : 'un-done'
 
-      console.log(action.payload, newStatus)
-
       todos[findIndex] = {
         ...targetTodo,
         status: newStatus
@@ -83,7 +81,6 @@ const todoReducer = (
       );
       const todos = [...state.todos];
 
-      console.log(action.payload)
       todos[findIndex] = action.payload.data; 
 
       return {
@@ -92,7 +89,6 @@ const todoReducer = (
       }  
     }
     case REMOVE_TODO: {
-      console.log(action)
       const filteredTodos = state.todos.filter(
         (todo: TodoBase) => todo.id !== action.payload
       );
