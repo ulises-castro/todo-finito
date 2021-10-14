@@ -54,6 +54,7 @@ interface SimpleBtnProps {
   padding?: string; 
 }
 
+// TODO: Compose this styled component better
 export const SimpleBtn = styled(InvertedBtn)<SimpleBtnProps>`
   ${props => props.padding || ''}  
 
@@ -62,9 +63,10 @@ export const SimpleBtn = styled(InvertedBtn)<SimpleBtnProps>`
   }
 `;
 
+
 export const Input = styled.input`
   padding: 5px;
-  border: 2px solid #bdbdbd;
+  border: 1px solid rgba(0,0,0,0.15);
 
   &:focus {
     outline: none !important;

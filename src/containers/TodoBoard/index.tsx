@@ -1,8 +1,8 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
-import { TodoStatusContainer, TodoBody, ActionBar, SquareBtn } from "./styled";
-import { Form, Input } from "css-components";
+import { TodoStatusContainer, TodoBody, ActionBar, SquareBtn, SquareInput } from "./styled";
+import { Form } from "css-components";
 import { Header, Flex } from "css-components";
 import {
   ADD_TODO,
@@ -75,7 +75,7 @@ function TodoBoard() {
       <ActionBar>
         <Form onSubmit={handleAddTodo} justifyContent="center">
           <Flex justifyContent="strech">
-            <Input
+            <SquareInput
               type="text"
               ref={inputNewTodoRef}
               value={newTodoValue}
