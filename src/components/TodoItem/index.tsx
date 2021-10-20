@@ -2,17 +2,17 @@ import React, { ReactElement, useState } from "react";
 import DeleteBtn from "components/DeleteBtn";
 import EditBtn from "components/EditBtn";
 import CheckBtn from "components/CheckBtn";
-import { Flex, SimpleBtn, Form, Input } from "css-components";
+import { Flex, SimpleBtn, SForm, SInput } from "css-components";
 import { Todo, TodoActions, HorizontalLine, TodoEditCSS } from "./styled";
 
-import { handlerTodoType } from "containers/TodoBoard/models/Todo.interface";
+import { TodoBase, handlerTodoType, handleEditTodoType } from "containers/TodoBoard/models/Todo.interface";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
-// TODO: Remove any type and asign a real type for "handlerEditTodo"
+// TODO: Remove any type and asign a real type for "handleEditTodo"
 export interface TodoItemProps {
-  todo: any;
-  handlerEditTodo?: any;
-  handlerRemoveTodo: handlerTodoType;
+  todo: TodoBase;
+  handleEditTodo?: handleEditTodoType;
+  handleRemoveTodo: handlerTodoType;
   handleToggleCompleted: handlerTodoType;
 }
 
@@ -20,8 +20,8 @@ let lastElementFromPoint: any = null;
 
 export default function TodoItem({
   todo,
-  handlerEditTodo,
-  handlerRemoveTodo,
+  handleEditTodo,
+  handleRemoveTodo,
   handleToggleCompleted,
 }: TodoItemProps): ReactElement | null {
   const [showEdit, setShowEdit] = useState<Boolean>(false);
@@ -35,9 +35,8 @@ export default function TodoItem({
 
   const [value, setValue] = useState(todo.title);
 
-  const todoNode: any = React.useCallback((node: any) => {
+  const todoNode: any = React.useCallback((node: HTMLElement) => {
     function functionFactory() {
-      handlerRemoveTodo(todo.id);
     }
 
     if (node !== null) {
@@ -48,7 +47,7 @@ export default function TodoItem({
   const handlerUpdateTodoTitle = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
 
-    handlerEditTodo({ ...todo, title: value });
+    handleEditTodo({ ...todo, title: value });
     setShowEdit(false);
   };
 
@@ -74,7 +73,7 @@ export default function TodoItem({
       lastElementFromPoint.className.includes("droppable-element")
     ) {
       const status = lastElementFromPoint.className.split("--")[1];
-      handlerEditTodo({ ...todo, status });
+      handleEditTodo({ ...todo, status });
     }
 
     lastElementFromPoint = null;
@@ -104,9 +103,9 @@ export default function TodoItem({
 
         <TodoEditCSS completed={isTodoCompleted}>
           {showEdit ? (
-            <Form onSubmit={handlerUpdateTodoTitle}>
+            <SForm onSubmit={handlerUpdateTodoTitle}>
               <Flex alignItems="center">
-                <Input
+                <SInput
                   type="text"
                   value={value}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -126,7 +125,7 @@ export default function TodoItem({
                   <SimpleBtn> Cancel </SimpleBtn>
                 </div>
               </Flex>
-            </Form>
+            </SForm>
           ) : (
             todo.title
           )}

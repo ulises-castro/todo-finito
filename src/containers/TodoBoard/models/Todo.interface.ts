@@ -15,6 +15,8 @@ export type TodoReducerState = {
 };
 
 export type handlerTodoType = (todoId: string) => void 
+export type handleTodoBaseType = (data: TodoBase) => void 
+export type handleEditTodoType = (todoId: string, data: TodoBase) => void
 
 export type TodoUpdateType = {
     todoId: string;

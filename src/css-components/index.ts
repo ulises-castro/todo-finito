@@ -12,7 +12,7 @@ export const ShadowBox = styled.div`
   }
 `;
 
-export const Header = styled.header`
+export const SHeader = styled.header`
   display: flex;
   justify-content: center;
   & h1 {
@@ -36,22 +36,22 @@ export const Flex = styled.div.attrs<FlexProps>(
       justifyContent: justifyContent || "initial",
     },
   })
-)<FlexProps>`
+) <FlexProps>`
   ${(props) => (props.alignItems ? `align-items: ${props.alignItems}` : ``)}
 `;
 
-interface FormType {
+interface SFormType {
   justifyContent?: string;
 }
 
-export const Form = styled.form<FormType>`
+export const SForm = styled.form<SFormType>`
   display: flex;
   width: 100%;
   justify-content: ${props => props.justifyContent || 'space-between'};
 `;
 
 interface SimpleBtnProps {
-  padding?: string; 
+  padding?: string;
 }
 
 // TODO: Compose this styled component better
@@ -63,8 +63,7 @@ export const SimpleBtn = styled(InvertedBtn)<SimpleBtnProps>`
   }
 `;
 
-
-export const Input = styled.input`
+export const SInput = styled.input`
   padding: 5px;
   border: 1px solid rgba(0,0,0,0.15);
 
