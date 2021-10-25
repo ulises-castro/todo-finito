@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import styled from 'styled-components'
 
-// TODO: Assigned correct ones types instead of "any"
 export interface TodoContainerProps {
   children: React.ReactElement[]; 
   title: string;

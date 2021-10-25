@@ -1,9 +1,15 @@
 import React, { useReducer } from "react";
 import TodoContainer from "components/TodoContainer";
 import TodoItem from "components/TodoItem";
-import { TodoStatusContainer, TodoBody, ActionBar, SquareBtn, SquareInput } from "./styled";
-import { Form } from "css-components";
-import { Header, Flex } from "css-components";
+import {
+  TodoStatusContainer,
+  TodoBody,
+  ActionBar,
+  SquareBtn,
+  SquareInput,
+} from "./styled";
+import { SForm } from "css-components";
+import { SHeader, Flex } from "css-components";
 import {
   ADD_TODO,
   REMOVE_TODO,
@@ -12,7 +18,13 @@ import {
 } from "./models/Todo.interface";
 
 import todoReducer, { initialTodoState } from "./todoReducer";
-import { TodoProps, handlerTodoType, TodoBase } from "./models/Todo.interface";
+import {
+  TodoProps,
+  TodoPreviewProps,
+  handlerTodoType,
+  TodoBase,
+  handleEditTodoType,
+} from "./models/Todo.interface";
 
 function TodoBoard() {
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
@@ -22,7 +34,7 @@ function TodoBoard() {
   const handleAddTodo = (event: any) => {
     event.preventDefault();
 
-    const payload: TodoProps = {
+    const payload: TodoPreviewProps = {
       title: newTodoValue,
       date: new Date(),
     };
@@ -34,7 +46,7 @@ function TodoBoard() {
     if (inputNewTodoRef.current) inputNewTodoRef.current.focus();
   };
 
-  const handlerRemoveTodo: handlerTodoType = (todoId) => {
+  const handleRemoveTodo: handlerTodoType = (todoId) => {
     dispatch({ type: REMOVE_TODO, payload: todoId });
   };
 
@@ -42,7 +54,7 @@ function TodoBoard() {
     dispatch({ type: TOGGLE_COMPLETED_STATUS, payload: todoId });
   };
 
-  const handlerEditTodo = (todoId: string, data: TodoBase): void => {
+  const handleEditTodo: handleEditTodoType = (todoId, data) => {
     dispatch({ type: UPDATE_TODO, payload: { todoId, data } });
   };
 
@@ -52,28 +64,30 @@ function TodoBoard() {
     setNewTodoValue(event.target.value);
   };
 
-  // TODO: This could be refactored
-  const filterTodosBy: any = (status = "") =>
-    state.todos
-      .filter((todo: any) => (status ? todo.status === status : true))
-      .map((todo: any) => (
-        <TodoItem
-          // TODO: Create its own type for this because it is used more than once
-          handlerEditTodo={(data: TodoBase) => handlerEditTodo(todo.id, data)}
-          handleToggleCompleted={handleToggleCompleted}
-          handlerRemoveTodo={handlerRemoveTodo}
-          key={todo.id}
-          todo={todo}
-        />
-      ));
+  const filterTodosBy = (status: string = "") => {
+    const filteredTodos = state.todos.filter((todo: TodoBase) =>
+      status ? todo.status === status : true
+    );
+    console.log(filteredTodos)
+
+    return filteredTodos.map((todo: TodoBase) => (
+      <TodoItem
+        key={todo.id}
+        todo={todo}  
+        handleEditTodo={(data: TodoBase) => handleEditTodo(todo.id, data)}
+        handleToggleCompleted={handleToggleCompleted}
+        handleRemoveTodo={handleRemoveTodo}
+      />
+    ));
+  };
 
   return (
     <TodoBody>
-      <Header>
+      <SHeader>
         <h1> TodoFinito </h1>
-      </Header>
+      </SHeader>
       <ActionBar>
-        <Form onSubmit={handleAddTodo} justifyContent="center">
+        <SForm onSubmit={handleAddTodo} justifyContent="center">
           <Flex justifyContent="strech">
             <SquareInput
               type="text"
@@ -86,7 +100,7 @@ function TodoBoard() {
               Add
             </SquareBtn>
           </Flex>
-        </Form>
+        </SForm>
       </ActionBar>
       <TodoStatusContainer>
         <TodoContainer title="Tasks">{filterTodosBy()}</TodoContainer>

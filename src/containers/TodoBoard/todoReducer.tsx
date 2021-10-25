@@ -1,4 +1,4 @@
-import {                           
+import {
   ADD_TODO,
   REMOVE_TODO,
   MARK_COMPLETED,
@@ -6,11 +6,12 @@ import {
   UPDATE_TODO,
   TodoAction,
   TodoProps,
+  TodoPreviewProps,
   TodoReducerState,
   TodoBase,
 } from "./models/Todo.interface";
 
-import { getRandomAlphanumeric } from 'utils/helpers'
+import { getRandomAlphanumeric } from "utils/helpers";
 
 const defaultTodo: TodoBase = {
   id: "Hxd324Jsi",
@@ -29,12 +30,12 @@ const todoReducer = (
 ): TodoReducerState => {
   switch (action.type) {
     case ADD_TODO: {
-      const randomId = getRandomAlphanumeric(9)
+      const randomId = getRandomAlphanumeric(9);
 
       const newTodo: TodoProps = {
-        id: randomId,
-        status: "un-done",
-        ...(action.payload as TodoProps),
+         id: randomId,
+        status: "un-done", 
+        ...(action.payload as TodoPreviewProps),
       };
 
       return {
@@ -45,22 +46,22 @@ const todoReducer = (
     case TOGGLE_COMPLETED_STATUS: {
       const findIndex = state.todos.findIndex(
         (todo) => todo.id === action.payload
-      ); 
+      );
       const todos = [...state.todos];
 
-
-      let targetTodo = todos[findIndex]
-      const newStatus = targetTodo.status !== 'completed' ? 'completed' : 'un-done'
+      let targetTodo = todos[findIndex];
+      const newStatus =
+        targetTodo.status !== "completed" ? "completed" : "un-done";
 
       todos[findIndex] = {
         ...targetTodo,
-        status: newStatus
-      }
- 
+        status: newStatus,
+      };
+
       return {
         ...state,
-        todos
-      }
+        todos,
+      };
     }
     case MARK_COMPLETED: {
       const findIndex = state.todos.findIndex(
@@ -73,7 +74,7 @@ const todoReducer = (
       return {
         ...state,
         todos,
-      }
+      };
     }
     case UPDATE_TODO: {
       const findIndex = state.todos.findIndex(
@@ -81,12 +82,12 @@ const todoReducer = (
       );
       const todos = [...state.todos];
 
-      todos[findIndex] = action.payload.data; 
+      todos[findIndex] = action.payload.data;
 
       return {
         ...state,
-        todos
-      }  
+        todos,
+      };
     }
     case REMOVE_TODO: {
       const filteredTodos = state.todos.filter(

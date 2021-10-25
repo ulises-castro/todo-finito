@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SimpleBtn, Input } from 'css-components'
+import { SimpleBtn, SInput } from 'css-components'
 
 export const TodoBody = styled.div`
   display: grid;
@@ -20,11 +20,11 @@ export const ActionBar = styled.section`
   justify-content: center;
 `;
 
-interface ITodoStatusContainer {
+interface TodoStatusContainerProps {
   direction?: string;
 }
 
-export const TodoStatusContainer = styled.section<ITodoStatusContainer>`
+export const TodoStatusContainer = styled.section<TodoStatusContainerProps>`
   grid-area: todo-container;
   display: flex;
   flex-wrap: wrap;
@@ -41,7 +41,7 @@ export const SquareBtn = styled(SimpleBtn)`
   border-radius: 0;
 `
 
-export const SquareInput = styled(Input)`
+export const SquareInput = styled(SInput)`
   border-radius: none;
   border-right: none;
 `
