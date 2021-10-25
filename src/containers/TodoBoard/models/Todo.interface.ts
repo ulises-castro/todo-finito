@@ -1,5 +1,5 @@
 export interface TodoBase {
-  id?: string | undefined;
+  id: string;
   title: string;
   body?: string;
   date?: Date;
@@ -9,6 +9,8 @@ export interface TodoBase {
 export interface TodoProps extends TodoBase {
   subtasks?: TodoBase[];
 }
+
+export type TodoPreviewProps = Omit<TodoProps, 'id'>
 
 export type TodoReducerState = {
   todos: TodoProps[];
@@ -30,7 +32,7 @@ export const TOGGLE_COMPLETED_STATUS = 'TOGGLE_COMPLETED_STATUS'
 export const UPDATE_TODO = 'UPDATE_TODO'
 
 export type TodoAction =
-  | { type: typeof ADD_TODO; payload: TodoBase }
+  | { type: typeof ADD_TODO; payload: TodoPreviewProps }
   | { type: typeof REMOVE_TODO; payload: string }
   | { type: typeof MARK_COMPLETED; payload: string }
   | { type: typeof TOGGLE_COMPLETED_STATUS; payload: string } 

@@ -13,7 +13,7 @@ export const Todo = styled(ShadowBox).attrs<{ position?: any }>(({ position }) =
     // left: `${position.left}px`,
     // display: position.hidden ? "none" : "flex",
   },
-}))<{ position: any; completed: Boolean }>`
+}))<{ position?: any; completed: Boolean }>`
   background: white;
   display: flex;
   justify-content: space-between;

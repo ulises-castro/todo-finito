@@ -20,6 +20,7 @@ import {
 import todoReducer, { initialTodoState } from "./todoReducer";
 import {
   TodoProps,
+  TodoPreviewProps,
   handlerTodoType,
   TodoBase,
   handleEditTodoType,
@@ -33,7 +34,7 @@ function TodoBoard() {
   const handleAddTodo = (event: any) => {
     event.preventDefault();
 
-    const payload: TodoProps = {
+    const payload: TodoPreviewProps = {
       title: newTodoValue,
       date: new Date(),
     };
@@ -69,7 +70,7 @@ function TodoBoard() {
     );
     console.log(filteredTodos)
 
-    return filteredTodos.map((todo: any) => (
+    return filteredTodos.map((todo: TodoBase) => (
       <TodoItem
         key={todo.id}
         todo={todo}  

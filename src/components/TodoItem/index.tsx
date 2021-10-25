@@ -22,7 +22,6 @@ export default function TodoItem({
   handleRemoveTodo,
   handleToggleCompleted,
 }: TodoItemProps): ReactElement | null {
-  console.log(todo)
   const [showEdit, setShowEdit] = useState<Boolean>(false);
   const [showDeleteAnimation, setShowDeleteAnimation] =
     useState<Boolean>(false);
