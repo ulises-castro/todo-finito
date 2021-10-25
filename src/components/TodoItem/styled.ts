@@ -6,12 +6,12 @@ import { ShadowBox } from "css-components";
 //TODO: In the outer type you can move the completed types to inner and reduce code
 //TODO: Change position props for style.
 //TODO: Compose Drag-Drop in a components to re-used it
-export const Todo = styled(ShadowBox).attrs<{ position: any }>(({ position }) => ({
+export const Todo = styled(ShadowBox).attrs<{ position?: any }>(({ position }) => ({
   style: {
-    position: position.top ? "absolute" : "initial",
-    top: `${position.top}px`,
-    left: `${position.left}px`,
-    display: position.hidden ? "none" : "flex",
+    // position: position.top ? "absolute" : "initial",
+    // top: `${position.top}px`,
+    // left: `${position.left}px`,
+    // display: position.hidden ? "none" : "flex",
   },
 }))<{ position: any; completed: Boolean }>`
   background: white;

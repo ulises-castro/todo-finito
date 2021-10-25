@@ -5,18 +5,16 @@ import CheckBtn from "components/CheckBtn";
 import { Flex, SimpleBtn, SForm, SInput } from "css-components";
 import { Todo, TodoActions, HorizontalLine, TodoEditCSS } from "./styled";
 
-import { TodoBase, handlerTodoType, handleEditTodoType } from "containers/TodoBoard/models/Todo.interface";
+import { TodoBase, handlerTodoType, handleTodoBaseType } from "containers/TodoBoard/models/Todo.interface";
 
 // NOTE: Once you use rest to pass an array of methods you lose because typescript lack of features to work
 // TODO: Remove any type and asign a real type for "handleEditTodo"
 export interface TodoItemProps {
   todo: TodoBase;
-  handleEditTodo?: handleEditTodoType;
-  handleRemoveTodo: handlerTodoType;
+  handleEditTodo: handleTodoBaseType;
+  handleRemoveTodo?: handlerTodoType;
   handleToggleCompleted: handlerTodoType;
 }
-
-let lastElementFromPoint: any = null;
 
 export default function TodoItem({
   todo,
@@ -24,14 +22,10 @@ export default function TodoItem({
   handleRemoveTodo,
   handleToggleCompleted,
 }: TodoItemProps): ReactElement | null {
+  console.log(todo)
   const [showEdit, setShowEdit] = useState<Boolean>(false);
   const [showDeleteAnimation, setShowDeleteAnimation] =
     useState<Boolean>(false);
-  const [todoPosition, setTodoPosition] = useState<{
-    top: number;
-    left: number;
-    hidden?: boolean;
-  }>({ top: 0, left: 0, hidden: false });
 
   const [value, setValue] = useState(todo.title);
 
@@ -51,35 +45,6 @@ export default function TodoItem({
     setShowEdit(false);
   };
 
-  const onMouseMove = React.useCallback((event: any) => {
-    setTodoPosition({ top: event.pageY, left: event.pageX, hidden: true });
-
-    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-    lastElementFromPoint = elemBelow;
-
-    setTodoPosition({ top: event.pageY, left: event.pageX });
-  }, []);
-
-  const handlerMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    document.addEventListener("mousemove", onMouseMove);
-  };
-
-  const handlerMouseUp = () => {
-    setTodoPosition({ top: 0, left: 0 });
-
-    if (
-      lastElementFromPoint &&
-      lastElementFromPoint.className.includes("droppable-element")
-    ) {
-      const status = lastElementFromPoint.className.split("--")[1];
-      handleEditTodo({ ...todo, status });
-    }
-
-    lastElementFromPoint = null;
-    document.removeEventListener("mousemove", onMouseMove);
-  };
-
   const isTodoCompleted = todo.status === "completed";
 
   const onClickToggleCompleted = (event: React.MouseEvent<HTMLElement>) => {
@@ -91,7 +56,6 @@ export default function TodoItem({
       <Todo
         key={todo.id}
         completed={isTodoCompleted}
-        position={todoPosition}
         ref={todoNode}
       >
         <Flex padding="15px">

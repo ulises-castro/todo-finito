@@ -53,7 +53,7 @@ function TodoBoard() {
     dispatch({ type: TOGGLE_COMPLETED_STATUS, payload: todoId });
   };
 
-  const handlerEditTodo: handleEditTodoType = (todoId, data) => {
+  const handleEditTodo: handleEditTodoType = (todoId, data) => {
     dispatch({ type: UPDATE_TODO, payload: { todoId, data } });
   };
 
@@ -67,14 +67,15 @@ function TodoBoard() {
     const filteredTodos = state.todos.filter((todo: any) =>
       status ? todo.status === status : true
     );
+    console.log(filteredTodos)
 
     return filteredTodos.map((todo: any) => (
       <TodoItem
-        handleEditTodo={(data: TodoBase) => handlerEditTodo(todo.id, data)}
-        handleToggleCompleted={handleToggleCompleted}
-        handlerRemoveTodo={handlerRemoveTodo}
         key={todo.id}
-        todo={todo}
+        todo={todo}  
+        handleEditTodo={(data: TodoBase) => handleEditTodo(todo.id, data)}
+        handleToggleCompleted={handleToggleCompleted}
+        // handlerRemoveTodo={handlerRemoveTodo}
       />
     ));
   };
