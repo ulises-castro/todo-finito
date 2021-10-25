@@ -12,7 +12,7 @@ import { TodoBase, handlerTodoType, handleTodoBaseType } from "containers/TodoBo
 export interface TodoItemProps {
   todo: TodoBase;
   handleEditTodo: handleTodoBaseType;
-  handleRemoveTodo?: handlerTodoType;
+  handleRemoveTodo: handlerTodoType;
   handleToggleCompleted: handlerTodoType;
 }
 
@@ -28,8 +28,9 @@ export default function TodoItem({
 
   const [value, setValue] = useState(todo.title);
 
-  const todoNode: any = React.useCallback((node: HTMLElement) => {
+  const todoNode = React.useCallback((node: HTMLDivElement) => {
     function functionFactory() {
+      handleRemoveTodo(todo.id)
     }
 
     if (node !== null) {

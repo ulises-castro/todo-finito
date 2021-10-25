@@ -46,7 +46,7 @@ function TodoBoard() {
     if (inputNewTodoRef.current) inputNewTodoRef.current.focus();
   };
 
-  const handlerRemoveTodo: handlerTodoType = (todoId) => {
+  const handleRemoveTodo: handlerTodoType = (todoId) => {
     dispatch({ type: REMOVE_TODO, payload: todoId });
   };
 
@@ -64,8 +64,8 @@ function TodoBoard() {
     setNewTodoValue(event.target.value);
   };
 
-  const filterTodosBy: any = (status = "") => {
-    const filteredTodos = state.todos.filter((todo: any) =>
+  const filterTodosBy = (status: string = "") => {
+    const filteredTodos = state.todos.filter((todo: TodoBase) =>
       status ? todo.status === status : true
     );
     console.log(filteredTodos)
@@ -76,7 +76,7 @@ function TodoBoard() {
         todo={todo}  
         handleEditTodo={(data: TodoBase) => handleEditTodo(todo.id, data)}
         handleToggleCompleted={handleToggleCompleted}
-        // handlerRemoveTodo={handlerRemoveTodo}
+        handleRemoveTodo={handleRemoveTodo}
       />
     ));
   };
